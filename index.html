@@ -27,7 +27,7 @@
     <main class="flex-row justify-space-between">
       <div id="city-search" class="col-12 text-center">
         <div class="card">
-          <h3 class="card-header">enter a zip code:</h3>
+          <h3 class="card-header">Enter a zip code:</h3>
           <form id="user-form" class="card-body">
             <input
               type="text"
@@ -36,6 +36,13 @@
               autofocus="true"
               class="form-input"
             />
+            <h7>Distance:</h5>
+            <select name="radius" id="radius">
+              <option value="5mi">5mi</option>
+              <option value="10mi">10mi</option>
+              <option value="15mi">15mi</option>
+              <option value="20mi">20mi</option>
+            </select>
             <button class="btn btn-primary" type="submit">SEARCH</button>
           </form>
         </div>
