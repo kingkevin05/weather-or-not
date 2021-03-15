@@ -5,17 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet" />
+    <link
       href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css"
-      rel="stylesheet"
-    />
+      rel="stylesheet" />
     <link rel="stylesheet" href="./assets/style.css" />
     <title>Weather or Not</title>
   </head>
   <body>
     <header class="jumbotron text-center">
       <h1 class="">Weather or Not</h1>
-      <div class="">place todays date here</div>
+      <div class="date">
+        <h2><span id="today"></span></h2>
+      </div>
     </header>
+    
     <main class="flex-row justify-space-between">
       <div id="city-search" class="col-12 text-center">
         <div class="card">
@@ -36,6 +44,7 @@
         <div id="weather-results">
           <p>
             <!-- we can show the weather by the hour of the of day instead of a 5day forecast. maybe 5 hours from the time of search   -->
+            <!-- also we can use current location too instead. i just know that its gonna prompt the user to share their location  -->
             a random location's weather should go
             here in this div. this will jus be a default until the user enters their zipcode </br>
             this area should change into the search results after the search button is pressed
