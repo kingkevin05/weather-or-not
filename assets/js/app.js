@@ -1,13 +1,3 @@
-/**
- output: a website that displays local outdoor activities based on zip code. activities  
- 
- how does the user input a zip cose?
- how will the current date be displayed in the header? api?
-
-*/
-
-
-
 var currentDate = document.querySelector("#today")
 
 var today = new Date();
