@@ -1,16 +1,13 @@
 // location variable containing latitude and longitude 
 var locationObj;
-var currentDate = document.querySelector("#today")
 
-var today = new Date();
-var dd = String(today.getDate()).padStart(2, '0');
-var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-var yyyy = today.getFullYear();
+// date and time
+var displayCurrentDate = document.querySelector("#today")
 
-today = mm + '/' + dd + '/' + yyyy;
+var currentDate = moment();
+displayCurrentDate.textContent = currentDate.format("dddd, MMMM Do YYYY LT");
 
-currentDate.textContent = today;
-
+// search button handler
 var search = async function(event) {
     // getting input text
     var zipInput = $("#zipCode").val();
@@ -24,4 +21,6 @@ var search = async function(event) {
     }
 };
 $("#search-button").on("click",search);
+
+
   
