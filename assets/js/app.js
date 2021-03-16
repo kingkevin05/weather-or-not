@@ -23,4 +23,10 @@ var search = async function(event) {
 $("#search-button").on("click",search);
 
 
-  
+
+
+
+
+// this will keep rain cloud invisble until called upon.
+// document.getElementById('rain-cloud-left').style.display = 'none';
+// document.getElementById('rain-cloud-right').style.display = 'none';

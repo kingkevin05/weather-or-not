@@ -14,3 +14,23 @@ body{
   padding:0;
   margin:0;
 }
+
+#rain-cloud-left {
+  position: absolute;
+  opacity: 75%;
+  left: 140px;
+  top: 20px;
+  z-index: 1;
+  max-width: 50%;
+  max-height: 50%;
+}
+
+#rain-cloud-right {
+  position: absolute;
+  opacity: 75%;
+  right: 140px;
+  top: 20px;
+  z-index: 1;
+  max-width: 50%;
+  max-height: 50%;
+}
