@@ -1,3 +1,8 @@
 * {
   box-sizing: border-box;
 }
+
+.zip-input {
+    margin: auto;
+    width:auto;
+}
