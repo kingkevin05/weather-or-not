@@ -16,7 +16,7 @@
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css"
       rel="stylesheet" />
-    <link rel="stylesheet" href="./assets/style.css" />
+    <link rel="stylesheet" href="./assets/css/style.css"/>
     <title>Weather or Not</title>
   </head>
   <body>
@@ -30,24 +30,24 @@
     <main class="flex-row justify-space-between">
       <div id="city-search" class="col-12 text-center">
         <div class="card">
-          <h3 class="card-header">Enter your zip code:</h3>
-          <form id="user-form" class="card-body">
+          <h3 class="card-header">enter a zip code:</h3>
+          <div class="input-group mb-3 zip-input">
             <input
-              type="text"
-              id="zipCode"
-              name="city"
-              autofocus="true"
-              class="form-input"
-            />
-            <h7>Distance:</h7>
+            type="text"
+            id="zipCode"
+            name="city"
+            autofocus="true"
+            class="form-input"
+          />
+          <h7>Distance:</h7>
             <select name="radius" id="radius">
               <option value="5mi">5mi</option>
               <option value="10mi">10mi</option>
               <option value="15mi">15mi</option>
               <option value="20mi">20mi</option>
             </select>
-            <button class="btn btn-primary" type="submit">SEARCH</button>
-          </form>
+          <button class="btn btn-primary" type="submit" id="search-button">SEARCH</button>
+          </div>
         </div>
       </div>
       <div id="results" class="container text-center">
@@ -71,7 +71,8 @@
       </div>
     </main>
     <footer class="container text-center">Contributors: Zhypara, Kevin, Jennifer, & Aidan</footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"></script>
-    <script src="./assets/js/app.js"></script>
+    <script src="./assets/js/app.js"></script> 
   </body>
 </html>
