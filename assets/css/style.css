@@ -6,3 +6,11 @@
     margin: auto;
     width:auto;
 }
+
+body{
+  background-image: url(./images/background-image-main.gif);
+  background-size: cover;
+  height: 100vh;
+  padding:0;
+  margin:0;
+}
