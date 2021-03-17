@@ -94,23 +94,45 @@ function aqIndex(lat, lon) {
   });
 }
 
+var initMap = function() {
+    
+}
+
+var convertMiles = function(miles){
+    return miles * 1609.34;
+}
 // search button handler
 var search = async function (event) {
   // getting input text
-  var zipInput = $("#zipCode").val();
+  var cityInput = $("#city-name").val();
+  console.log(cityInput);
+  var apiKeyGoogle = "AIzaSyCRrUY50j7ci46YCar9Ha27GiIPBPP5BdA";
   // used await to wait for the geocode api call to responde before moving on
   var response = await fetch(
-    "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCRrUY50j7ci46YCar9Ha27GiIPBPP5BdA&address=" +
-      zipInput
+    "https://maps.googleapis.com/maps/api/geocode/json?key=" + apiKeyGoogle + "&address=" + cityInput
   );
   if (response.ok) {
     // converts the response into object
     var data = await response.json();
     // getting the lat and long from the converted response
     locationObj = data.results[0].geometry.location;
-    console.log(response);
+    var locationBias = "circle:" + $("#radius").val() + "@" + locationObj.lat + "," + locationObj.lng;
+    var service = new google.maps.places.PlacesService($("#stuff-todo").get(0));
+    var request = {
+        query: 'hiking trails',
+        location: new google.maps.LatLng(locationObj.lat, locationObj.lng),
+        radius: convertMiles($("#radius").val()),
+    };
+    service.textSearch(request, function(results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            console.log(results);
+        } else {
+            console.log(status);
+        }
+      });
   }
 };
+
 $("#search-button").on("click", search);
 
 // this will keep rain cloud invisble until called upon.
