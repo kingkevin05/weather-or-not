@@ -11,10 +11,6 @@ var humidity = document.querySelector(".humidity");
 var wind = document.querySelector(".wind");
 var uvi = document.querySelector(".uvi");
 
-var hour = moment().hour();
-// setInterval every min
-// change src of img
-
 // date and time
 var displayCurrentDate = document.querySelector("#today");
 var currentDate = moment();
@@ -120,3 +116,18 @@ document.getElementById('rain-cloud-right').style.display = 'none';
 // this will keep the smog invisble until called upon.
 document.getElementById('smog-left').style.display = 'none';
 document.getElementById('smog-right').style.display = 'none';
+
+$.ajax({
+  type:"GET",
+  url:"https://app.ticketmaster.com/discovery/v2/events.json?city=Austin&apikey=pAdhPaexdL7G6QTWjeRWLfA9jUIdgHHM",
+  async:true,
+  dataType: "json",
+  success: function(json) {
+              console.log(json._embedded.events);
+              // Parse the response.
+              // Do other things.
+           },
+  error: function(xhr, status, err) {
+              // This time, we do not end up here!
+           }
+});
