@@ -73,6 +73,7 @@ function uvIndex(lat, lon) {
   });
 }
 
+
 // search button handler
 var search = async function (event) {
   // getting input text
@@ -91,3 +92,16 @@ var search = async function (event) {
   }
 };
 $("#search-button").on("click", search);
+
+
+
+
+
+// this will keep rain cloud invisble until called upon.
+document.getElementById('rain-cloud-left').style.display = 'none';
+document.getElementById('rain-cloud-right').style.display = 'none';
+
+// this will keep the smog invisble until called upon.
+document.getElementById('smog-left').style.display = 'none';
+document.getElementById('smog-right').style.display = 'none';
+
