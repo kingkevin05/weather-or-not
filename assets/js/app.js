@@ -11,10 +11,80 @@ var humidity = document.querySelector(".humidity");
 var wind = document.querySelector(".wind");
 var uvi = document.querySelector(".uvi");
 
+var selectElement = document.getElementById("states");
+var states = [
+  "AL",
+  "AK",
+  "AS",
+  "AZ",
+  "AR",
+  "CA",
+  "CO",
+  "CT",
+  "DE",
+  "DC",
+  "FM",
+  "FL",
+  "GA",
+  "GU",
+  "HI",
+  "ID",
+  "IL",
+  "IN",
+  "IA",
+  "KS",
+  "KY",
+  "LA",
+  "ME",
+  "MH",
+  "MD",
+  "MA",
+  "MI",
+  "MN",
+  "MS",
+  "MO",
+  "MT",
+  "NE",
+  "NV",
+  "NH",
+  "NJ",
+  "NM",
+  "NY",
+  "NC",
+  "ND",
+  "MP",
+  "OH",
+  "OK",
+  "OR",
+  "PW",
+  "PA",
+  "PR",
+  "RI",
+  "SC",
+  "SD",
+  "TN",
+  "TX",
+  "UT",
+  "VT",
+  "VI",
+  "VA",
+  "WA",
+  "WV",
+  "WI",
+  "WY",
+];
+
 // date and time
 var displayCurrentDate = document.querySelector("#today");
 var currentDate = moment();
 displayCurrentDate.textContent = currentDate.format("dddd, MMMM Do YYYY");
+
+for (var i = 0; i < states.length; i++) {
+  let newOption = document.createElement("option");
+  newOption.value = states[i];
+  newOption.innerText = states[i];
+  selectElement.appendChild(newOption);
+}
 
 searchBtn.addEventListener("click", function () {
   var apiUrl =
@@ -54,6 +124,7 @@ searchBtn.addEventListener("click", function () {
     .catch(function (error) {
       alert("Unable to connect to OpenWeatherMap");
     });
+
   $.ajax({
     type: "GET",
     url:
