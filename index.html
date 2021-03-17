@@ -20,33 +20,33 @@
     <title>Weather or Not</title>
   </head>
   <body>
-    <header class="jumbotron text-center">
-      <h1 class="">Weather or Not</h1>
-      <div class="date">
+    <header class="jumbotron text-center d-flex justify-content-around ">
+      <h1>Weather or Not</h1>
+      <div class="date align-self-center">
         <h3><span id="today"></span></h3>
       </div>
     </header>
     
     <main class="flex-row justify-space-between">
-      <div id="city-search" class="col-12 text-center">
-        <div class="card">
-          <h3 class="card-header">enter a zip code:</h3>
-          <div class="input-group mb-3 zip-input">
+      <div id="city-search"> 
+        <div>
+          <h3 class="d-flex justify-content-center">Enter zip code below:</h3>
+          <div class="input-group mb-3 zip-input d-flex justify-content-center">
             <input
             type="text"
             id="zipCode"
             name="city"
             autofocus="true"
             class="form-input"
-          />
-          <h7>Distance:</h7>
+            />
+            <h7>Distance:</h7>
             <select name="radius" id="radius">
               <option value="5mi">5mi</option>
               <option value="10mi">10mi</option>
               <option value="15mi">15mi</option>
               <option value="20mi">20mi</option>
             </select>
-          <button class="btn btn-primary" type="submit" id="search-button">SEARCH</button>
+            <button class="btn btn-primary" type="submit" id="search-button">SEARCH</button>
           </div>
         </div>
       </div>
