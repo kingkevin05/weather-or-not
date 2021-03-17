@@ -6,9 +6,14 @@ var cityDisplay = document.querySelector(".city");
 var description = document.querySelector(".description");
 var temp = document.querySelector(".temp");
 var feelsLike = document.querySelector(".feels-like");
+var aqi = document.querySelector(".aqi");
 var humidity = document.querySelector(".humidity");
 var wind = document.querySelector(".wind");
 var uvi = document.querySelector(".uvi");
+
+var hour = moment().hour();
+// setInterval every min
+// change src of img
 
 // date and time
 var displayCurrentDate = document.querySelector("#today");
@@ -26,16 +31,17 @@ searchBtn.addEventListener("click", function () {
       if (response.ok) {
         console.log(response);
         response.json().then(function (data) {
-          var nameValue = data["name"];
-          var descriptionValue = data["weather"][0]["description"];
-          var tempValue = data["main"]["temp"];
-          var feelsLikeValue = data["main"]["feels_like"];
-          var humidityValue = data["main"]["humidity"];
-          var windValue = data["wind"]["speed"];
+          var nameValue = data.name;
+          var descriptionValue = data.weather[0].description;
+          var tempValue = data.main.temp;
+          var feelsLikeValue = data.main.feels_like;
+          var humidityValue = data.main.humidity;
+          var windValue = data.wind.speed;
           console.log(data);
-          var lat = data["coord"]["lon"];
-          var lon = data["coord"]["lat"];
+          var lat = data.coord.lon;
+          var lon = data.coord.lat;
           uvIndex(data.coord.lat, data.coord.lon);
+          aqIndex(data.coord.lat, data.coord.lon)
 
           cityDisplay.innerHTML = nameValue + " " + currentDate.format("LT");
           description.innerHTML = descriptionValue;
@@ -66,13 +72,27 @@ function uvIndex(lat, lon) {
       console.log(response);
       response.json().then(function (data) {
         console.log(data);
-        var uviValue = data["current"]["uvi"];
+        var uviValue = data.current.uvi;
         uvi.innerHTML = "UV Index: " + uviValue;
       });
     }
   });
 }
 
+function aqIndex(lat, lon) {
+  var aqiUrl = "http://api.openweathermap.org/data/2.5/air_pollution?lat=" + lat + "&lon=" + lon + "&appid=9795009f60d5d1c3afe4e6df6002c319";
+  console.log(aqiUrl);
+    fetch(aqiUrl).then(function (response) {
+    if (response.ok) {
+      console.log(response);
+      response.json().then(function (data) {
+        console.log(data);
+        var aqiValue = data.list[0].main.aqi;
+        aqi.innerHTML = "Air Quality Index: " + aqiValue;
+      });
+    }
+  });
+}
 
 // search button handler
 var search = async function (event) {
@@ -94,10 +114,6 @@ var search = async function (event) {
 var getPlaces
 $("#search-button").on("click", search);
 
-
-
-
-
 // this will keep rain cloud invisble until called upon.
 document.getElementById('rain-cloud-left').style.display = 'none';
 document.getElementById('rain-cloud-right').style.display = 'none';
@@ -105,4 +121,19 @@ document.getElementById('rain-cloud-right').style.display = 'none';
 // this will keep the smog invisble until called upon.
 document.getElementById('smog-left').style.display = 'none';
 document.getElementById('smog-right').style.display = 'none';
+
+$.ajax({
+  type:"GET",
+  url:"https://app.ticketmaster.com/discovery/v2/events.json?city=Austin&apikey=pAdhPaexdL7G6QTWjeRWLfA9jUIdgHHM",
+  async:true,
+  dataType: "json",
+  success: function(json) {
+              console.log(json._embedded.events);
+              // Parse the response.
+              // Do other things.
+           },
+  error: function(xhr, status, err) {
+              // This time, we do not end up here!
+           }
+});
 
