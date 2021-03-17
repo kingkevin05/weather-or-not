@@ -91,6 +91,7 @@ var search = async function (event) {
     console.log(response);
   }
 };
+var getPlaces
 $("#search-button").on("click", search);
 
 
