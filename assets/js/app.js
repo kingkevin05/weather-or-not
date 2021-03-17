@@ -97,6 +97,43 @@ $("#search-button").on("click", search);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// var hour = moment().hour();
+//  if (condition) {
+
+     
+//  } else {
+     
+//  }
+
+// // gives me 22, which is 10pm
+// // setInterval every min
+// // change src of img
+
+// var now = new Date().getHours();
+
+
+
 // this will keep rain cloud invisble until called upon.
 document.getElementById('rain-cloud-left').style.display = 'none';
 document.getElementById('rain-cloud-right').style.display = 'none';
