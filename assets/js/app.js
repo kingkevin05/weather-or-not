@@ -5,6 +5,7 @@ var aqiValue;
 var cityInput = document.querySelector("#city-name");
 var searchBtn = document.querySelector("#search-button");
 var cityDisplay = document.querySelector(".city");
+var localTime = document.querySelector("#localTime");
 var description = document.querySelector(".description");
 var temp = document.querySelector(".temp");
 var feelsLike = document.querySelector(".feels-like");
@@ -82,6 +83,7 @@ var states = [
 var displayCurrentDate = document.querySelector("#today");
 var currentDate = moment();
 displayCurrentDate.textContent = currentDate.format("dddd, MMMM Do YYYY");
+localTime.innerHTML = currentDate.format("LT");
 
 for (var i = 0; i < states.length; i++) {
   let newOption = document.createElement("option");
@@ -96,31 +98,36 @@ var getWeatherInfo = async function () {
     cityInput.value +
     "&units=imperial&appid=9795009f60d5d1c3afe4e6df6002c319";
 
-  var response = await fetch(apiUrl);
-  if (response.ok) {
-    console.log(response);
-    var data = await response.json();
-    var nameValue = data.name;
-    var descriptionValue = data.weather[0].description;
-    tempValue = data.main.temp;
-    var feelsLikeValue = data.main.feels_like;
-    var humidityValue = data.main.humidity;
-    var windValue = data.wind.speed;
-    console.log(data);
-    var lat = data.coord.lon;
-    var lon = data.coord.lat;
-    uvIndex(data.coord.lat, data.coord.lon);
-    await aqIndex(data.coord.lat, data.coord.lon);
 
-    cityDisplay.innerHTML = nameValue + " " + currentDate.format("LT");
-    description.innerHTML = descriptionValue;
-    temp.innerHTML = "Temperature: " + tempValue + " °F";
-    feelsLike.innerHTML = "Feels like: " + feelsLikeValue + " °F";
-    humidity.innerHTML = "Humidity: " + humidityValue + "%";
-    wind.innerHTML = "Wind Speed: " + windValue + " MPH";
-  } else {
-    alert("Error: " + response.statusText);
-  }
+    var response = await fetch(apiUrl)
+    if (response.ok) {
+        console.log(response);
+        var data = await response.json()
+        var nameValue = data.name;
+        var descriptionValue = data.weather[0].description;
+        tempValue = data.main.temp;
+        var feelsLikeValue = data.main.feels_like;
+        var humidityValue = data.main.humidity;
+        var windValue = data.wind.speed;
+        console.log(data);
+        var lat = data.coord.lon;
+        var lon = data.coord.lat;
+        uvIndex(data.coord.lat, data.coord.lon);
+        await aqIndex(data.coord.lat, data.coord.lon);
+
+        cityDisplay.innerHTML = nameValue;
+        //  + " " + currentDate.format("LT"); (this used to be attached to the code above, but i took it out since i moved local time to upper right corner)
+        // I left this ^ code commented out in case we need it later.
+        
+        description.innerHTML = descriptionValue;
+        temp.innerHTML = "Temperature: " + tempValue + " °F";
+        feelsLike.innerHTML = "Feels like: " + feelsLikeValue + " °F";
+        humidity.innerHTML = "Humidity: " + humidityValue + "%";
+        wind.innerHTML = "Wind Speed: " + windValue + " MPH";
+    } else {
+        alert("Error: " + response.statusText);
+    }
+
 };
 
 function uvIndex(lat, lon) {
@@ -372,6 +379,16 @@ $("#search-button").on("click", search);
 
 
 // Aidan's code resides down here lol
+
+// testing git push after cloning repo
+
+
+
+
+
+
+
+
 
 // this function checks to see if the h3 contains the word cloud, if it does, then clouds will be displayed
 function runTimeOut() {
