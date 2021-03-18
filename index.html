@@ -71,7 +71,7 @@
           <p class="uvi"></p>
         </div>
         <div id="stuff-todo">
-          <p>
+          <h3 class="message"></h3>
             <br>
             <!-- we can add a drop down to adjust the radius of the given activities somewhere down here -->
             stuff to do in the random location should go here in this div. this will be the default until the user enters their search
@@ -88,6 +88,36 @@
     <!-- These images of smog clouds may be called upon if user's AQI is greater than 100 -->
     <img id="smog-left" src="./assets/images/smog.png" alt="smog on left side">
     <img id="smog-right" src="./assets/images/smog.png" alt="smog on right side">
+
+    <!-- Modal -->
+<div
+class="modal fade"
+id="errorModal"
+tabindex="-1"
+aria-labelledby="exampleModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+      <button
+        type="button"
+        class="btn-close"
+        data-mdb-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body">...</div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+        Close
+      </button>
+      <button type="button" class="btn btn-primary">OK</button>
+    </div>
+  </div>
+</div>
+</div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"></script>
