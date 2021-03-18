@@ -70,9 +70,9 @@ p {
   opacity: 75%;
   left: 140px;
   top: 20px;
-  z-index: 0;
-  max-width: 50%;
-  max-height: 50%;
+  z-index: -1;
+  max-width: 60%;
+  max-height: 60%;
 }
 
 #rain-cloud-right {
@@ -80,9 +80,9 @@ p {
   opacity: 75%;
   right: 140px;
   top: 20px;
-  z-index: 0;
-  max-width: 50%;
-  max-height: 50%;
+  z-index: -1;
+  max-width: 60%;
+  max-height: 60%;
 }
 
 #smog-left {
@@ -90,7 +90,7 @@ p {
   opacity: 60%;
   left: 80px;
   top: 20px;
-  z-index: 0;
+  z-index: -1;
   max-width: 50%;
   max-height: 50%;
 }
@@ -100,9 +100,29 @@ p {
   opacity: 60%;
   right: 80px;
   top: 20px;
-  z-index: 0;
+  z-index: -1;
   max-width: 50%;
   max-height: 50%;
+}
+
+#overcast-cloud-left {
+  position: absolute;
+  opacity: 60%;
+  left: 80px;
+  top: 0px;
+  z-index: -1;
+  max-width: 45%;
+  max-height: 35%;
+}
+
+#overcast-cloud-right {
+  position: absolute;
+  opacity: 60%;
+  right: 80px;
+  top: 0px;
+  z-index: -1;
+  max-width: 45%;
+  max-height: 35%;
 }
 
 .zip-padding {

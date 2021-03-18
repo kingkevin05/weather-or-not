@@ -253,10 +253,132 @@ var search = async function (event) {
 
 $("#search-button").on("click", search, conditionRecs);
 
-// this will keep rain cloud invisble until called upon.
-document.getElementById("rain-cloud-left").style.display = "none";
-document.getElementById("rain-cloud-right").style.display = "none";
 
-// this will keep the smog invisble until called upon.
-document.getElementById("smog-left").style.display = "none";
-document.getElementById("smog-right").style.display = "none";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Aidan's code resides down here lol
+
+
+
+
+
+
+
+
+
+// this function checks to see if the h3 contains the word cloud, if it does, then clouds will be displayed
+function runTimeOut() {
+    setTimeout(function(){ 
+        var targetDiv = document.getElementById("get-description").innerText;
+        var clouds = targetDiv.includes("cloud");
+        console.log(clouds);
+        if (clouds === true) {
+            document.getElementById("overcast-cloud-left").style.visibility = "visible";
+            document.getElementById("overcast-cloud-right").style.visibility = "visible";
+
+            document.getElementById("rain-cloud-left").style.visibility = "hidden";
+            document.getElementById("rain-cloud-right").style.visibility = "hidden";
+
+            document.getElementById("smog-left").style.visibility = "hidden";
+            document.getElementById("smog-right").style.visibility = "hidden";
+        }
+        var clear = targetDiv.includes("clear");
+        console.log(clear);
+        if (clear === true) {
+            document.getElementById("overcast-cloud-left").style.visibility = "hidden";
+            document.getElementById("overcast-cloud-right").style.visibility = "hidden";
+
+            document.getElementById("rain-cloud-left").style.visibility = "hidden";
+            document.getElementById("rain-cloud-right").style.visibility = "hidden";
+
+            document.getElementById("smog-left").style.visibility = "hidden";
+            document.getElementById("smog-right").style.visibility = "hidden";
+        }
+        var smoke = targetDiv.includes("smoke");
+        console.log(smoke);
+        if (smoke === true) {
+            document.getElementById("overcast-cloud-left").style.visibility = "hidden";
+            document.getElementById("overcast-cloud-right").style.visibility = "hidden";
+
+            document.getElementById("rain-cloud-left").style.visibility = "hidden";
+            document.getElementById("rain-cloud-right").style.visibility = "hidden";
+
+            document.getElementById("smog-left").style.visibility = "visible";
+            document.getElementById("smog-right").style.visibility = "visible";
+        }
+        var haze = targetDiv.includes("haze");
+        console.log(haze);
+        if (haze === true) {
+            document.getElementById("overcast-cloud-left").style.visibility = "hidden";
+            document.getElementById("overcast-cloud-right").style.visibility = "hidden";
+
+            document.getElementById("rain-cloud-left").style.visibility = "hidden";
+            document.getElementById("rain-cloud-right").style.visibility = "hidden";
+
+            document.getElementById("smog-left").style.visibility = "visible";
+            document.getElementById("smog-right").style.visibility = "visible";
+        }
+        var rain = targetDiv.includes("rain");
+        console.log(rain);
+        if (rain === true) {
+            document.getElementById("overcast-cloud-left").style.visibility = "hidden";
+            document.getElementById("overcast-cloud-right").style.visibility = "hidden";
+
+            document.getElementById("rain-cloud-left").style.visibility = "visible";
+            document.getElementById("rain-cloud-right").style.visibility = "visible";
+
+            document.getElementById("smog-left").style.visibility = "hidden";
+            document.getElementById("smog-right").style.visibility = "hidden";
+        }
+    }, 2000);
+}
