@@ -55,7 +55,7 @@
       <div id="results" class="container text-center">
         <div id="weather-results">
           <h2 class="city"></h2>
-          <h3 class="description"></h3>
+          <h3 class="description" id="get-description"></h3>
           <p>
             <!-- we can show the weather by the hour of the of day instead of a 5day forecast. maybe 5 hours from the time of search   -->
             <!-- also we can use current location too instead. i just know that its gonna prompt the user to share their location  -->
@@ -82,12 +82,17 @@
     </main>
 
     <!-- These images of rain clouds may be called upon if user's precipitation is greater than 30% -->
-    <img id="rain-cloud-left" src="./assets/images/rain-cloud.png" alt="rain cloud on left side">
-    <img id="rain-cloud-right" src="./assets/images/rain-cloud.png" alt="rain cloud on right side">
+    <img id="rain-cloud-left" src="./assets/images/rain-cloud.png" alt="rain cloud on left side" style="display: none;">
+    <img id="rain-cloud-right" src="./assets/images/rain-cloud.png" alt="rain cloud on right side" style="display: none;">
 
     <!-- These images of smog clouds may be called upon if user's AQI is greater than 100 -->
-    <img id="smog-left" src="./assets/images/smog.png" alt="smog on left side">
-    <img id="smog-right" src="./assets/images/smog.png" alt="smog on right side">
+    <img id="smog-left" src="./assets/images/smog.png" alt="smog on left side" style="display: none;">
+    <img id="smog-right" src="./assets/images/smog.png" alt="smog on right side" style="display: none;">
+
+
+    <!-- These images of overcast clouds will be called upon if weather says overcast or cloudy -->
+    <img id="overcast-cloud-left" src="./assets/images/overcast-cloud.png" alt="overcast cloud on left side" style="display: none;">
+    <img id="overcast-cloud-right" src="./assets/images/overcast-cloud.png" alt="overcast cloud on right side" style="display: none;">
 
     <!-- These images will be displayed once the user enters their zip code, and it will reflect their current time (updated hourly) -->
     

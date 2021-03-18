@@ -251,7 +251,6 @@ $("#search-button").on("click", search);
 
 
 
-
 // var hour = moment().hour();
 //  if (condition) {
 
@@ -268,10 +267,141 @@ $("#search-button").on("click", search);
 
 
 
-// this will keep rain cloud invisble until called upon.
-document.getElementById("rain-cloud-left").style.display = "none";
-document.getElementById("rain-cloud-right").style.display = "none";
 
-// this will keep the smog invisble until called upon.
-document.getElementById("smog-left").style.display = "none";
-document.getElementById("smog-right").style.display = "none";
+
+
+
+
+
+
+// this will keep rain cloud invisble until called upon.
+// document.getElementById("rain-cloud-left").style.display = "none";
+// document.getElementById("rain-cloud-right").style.display = "none";
+
+// // this will keep the smog invisble until called upon.
+// document.getElementById("smog-left").style.display = "none";
+// document.getElementById("smog-right").style.display = "none";
+
+// // this will keep the smog invisble until called upon.
+// document.getElementById("overcast-cloud-left").style.display = "none";
+// document.getElementById("overcast-cloud-right").style.display = "none";
+
+
+
+
+
+// var targetDiv = document.getElementById("get-description").innerText;
+
+// var btnClouds = document.getElementById("search-button");
+
+// btnClouds.onclick = function()  //when you click the play or pause button
+// {
+//     if( document.getElementById("get-description").innerText== "overcast clouds" )
+//     {
+//         document.getElementById("overcast-cloud-left").style.display = "visible";
+//         document.getElementById("overcast-cloud-right").style.display = "visible";
+//     }
+
+//     else
+//     {
+//         alert("it dont work")
+//     }
+// };
+
+// else {
+//     whatever = function() {
+//         // Do something else
+//     };
+// }
+// whatever();
+
+// while(true){
+//     // # Do things
+//     if( >= 3) {
+
+//     }
+//   }
+
+
+
+// var targetDiv = document.getElementById("get-description").innerText;
+// console.log(targetDiv);
+
+// for (let index = 0; index < array.length; index++) {
+//     const element = array[index];
+    
+// }
+
+// for (let index = 0; index < targetDiv.length; index++) {
+//     const element = array[index];
+
+//     if (targetDiv === "overcast clouds") {
+//         alert(hello)
+//     }
+// }
+
+
+
+// for (let index = 0; index < array.length; index++) {
+//     const element = array[index];
+    
+// }
+//     console.log(targetDiv);
+
+
+
+// var targetDiv = document.getElementById("get-description").innerText;
+
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     console.log(targetDiv);
+//  }, false);
+
+
+// here I will try to get clouds / smog to appear dependening on location weather description
+// for example if it says overcast, clouds will appear. If it says smoke, smog will appear. If it says rain, rain clouds will appear
+
+// var targetDiv = document.getElementById("weather-results").getElementsByClassName("description").innerText;
+// console.log(targetDiv);
+
+// var btnClouds = document.getElementById("search-button");
+
+// btnClouds.addEventListener("click", getTargetDiv)
+
+// function getTargetDiv(){
+
+//     // let targetDiv = document.getElementById("get-description").innerText;
+//     // console.log(targetDiv);
+
+//     console.log(descriptionValue);
+
+
+
+
+
+
+    
+// }
+
+//     let weatherDescription = targetDiv.innerText
+//     console.log(weatherDescription);
+
+
+//     let menu = document.getElementById('menu');
+// console.log(menu.innerHTML);
+
+
+
+
+
+// var targetDiv = document.getElementsByTagName("a");
+// var searchText = "SearchingText";
+// var found;
+
+// for (var i = 0; i < aTags.length; i++) {
+//   if (aTags[i].textContent == searchText) {
+//     found = aTags[i];
+//     break;
+//   }
+// }
+
