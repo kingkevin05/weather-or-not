@@ -53,17 +53,11 @@
           </div>
         </div>
       </div>
-      <div id="results" class="container text-center">
-        <div id="weather-results">
+      <div id="results" class="d-flex align-self-center">
+        <div class="col-4 text-center" id="weather-results">
           <h2 class="city"></h2>
           <h3 class="description" id="get-description"></h3>
-          <p>
-            <!-- we can show the weather by the hour of the of day instead of a 5day forecast. maybe 5 hours from the time of search   -->
-            <!-- also we can use current location too instead. i just know that its gonna prompt the user to share their location  -->
-            a random location's weather should go
-            here in this div. this will jus be a default until the user enters their zipcode </br>
-            this area should change into the search results after the search button is pressed
-          </p>
+          
           <p class="temp"></p>
           <p class="feels-like"></p>
           <p class="aqi"></p>
@@ -71,15 +65,62 @@
           <p class="wind"></p>
           <p class="uvi"></p>
         </div>
-        <div id="stuff-todo">
-          <p>
-            <br>
-            <!-- we can add a drop down to adjust the radius of the given activities somewhere down here -->
-            stuff to do in the random location should go here in this div. this will be the default until the user enters their search
-            <br>this will change into the the stuff to do for the users searched location 
-          </p>
+
+
+        <div id="stuff-todo" style="display:none">
+          <div id='events-panel' class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title"></h3>
+            </div>
+            <div class="panel-body">
+              <div id="events" class="list-group">
+                <a href="#" class="list-group-item">
+                  <h4 class="list-group-item-heading"></h4>
+                  <p class="list-group-item-text"></p>
+                  <p class="venue"></p>
+                </a>
+                <a href="#" class="list-group-item">
+                  <h4 class="list-group-item-heading"></h4>
+                  <p class="list-group-item-text"></p>
+                  <p class="venue"></p>
+                </a>
+                <a href="#" class="list-group-item">
+                  <h4 class="list-group-item-heading"></h4>
+                  <p class="list-group-item-text"></p>
+                  <p class="venue"></p>
+                </a>
+                <a href="#" class="list-group-item">
+                  <h4 class="list-group-item-heading"></h4>
+                  <p class="list-group-item-text"></p>
+                  <p class="venue"></p>
+                </a>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <nav>
+                <ul class="pager">
+                  <li id="prev" class="previous"><a href="#"><span aria-hidden="true">&larr;</span></a></li>
+                  <li id="next" class="next"><a href="#"><span aria-hidden="true">&rarr;</span></a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div id='attraction-panel' class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title"></h3>
+            </div>
+            <div id="attraction" class="panel-body">
+              <h4 class="list-group-item-heading"></h4>
+              <img class="" src="">
+              <p id="classification"></p>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
+  </div>
     </main>
 
     <!-- These images of rain clouds may be called upon if user's precipitation is greater than 30% -->
