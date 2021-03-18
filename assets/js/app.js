@@ -5,6 +5,7 @@ var aqiValue;
 var cityInput = document.querySelector("#city-name");
 var searchBtn = document.querySelector("#search-button");
 var cityDisplay = document.querySelector(".city");
+var localTime = document.querySelector("#localTime");
 var description = document.querySelector(".description");
 var temp = document.querySelector(".temp");
 var feelsLike = document.querySelector(".feels-like");
@@ -80,6 +81,7 @@ var states = [
 var displayCurrentDate = document.querySelector("#today");
 var currentDate = moment();
 displayCurrentDate.textContent = currentDate.format("dddd, MMMM Do YYYY");
+localTime.innerHTML = currentDate.format("LT");
 
 for (var i = 0; i < states.length; i++) {
   let newOption = document.createElement("option");
@@ -110,7 +112,10 @@ var getWeatherInfo =  async function () {
         uvIndex(data.coord.lat, data.coord.lon);
         await aqIndex(data.coord.lat, data.coord.lon);
 
-        cityDisplay.innerHTML = nameValue + " " + currentDate.format("LT");
+        cityDisplay.innerHTML = nameValue;
+        //  + " " + currentDate.format("LT"); (this used to be attached to the code above, but i took it out since i moved local time to upper right corner)
+        // I left this ^ code commented out in case we need it later.
+        
         description.innerHTML = descriptionValue;
         temp.innerHTML = "Temperature: " + tempValue + " °F";
         feelsLike.innerHTML = "Feels like: " + feelsLikeValue + " °F";
