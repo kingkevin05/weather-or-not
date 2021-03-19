@@ -174,6 +174,10 @@ var convertMiles = function (miles) {
   return miles * 1609.34;
 };
 
+var modalCall = function(text) {
+    $("#modal-content").text(text);
+    $("#errorModal").modal('show');
+}
 // search button handler
 var search = async function (event) {
   // call weather function in order to get weather info
@@ -182,6 +186,12 @@ var search = async function (event) {
   var cityInput = $("#city-name").val();
   if (tempValue > 50 && aqiValue < 100) {
     console.log(cityInput);
+    if (tempValue > 50 && tempValue < 70) {
+        modalCall("Looks windy/chilly! Might be a good idea to bring a jacket");
+    } else {
+        modalCall("It’s a nice day to spend some time outside. Here’s what’s happening in your area");
+    }
+    
     var apiKeyGoogle = "AIzaSyCRrUY50j7ci46YCar9Ha27GiIPBPP5BdA";
     // used await to wait for the geocode api call to responde before moving on
     var response = await fetch(
@@ -212,7 +222,7 @@ var search = async function (event) {
       });
     }
   } else {
-   
+    modalCall("Boo, weather’s not looking too good, cheers to indoor fun!")
     getEvents(page);
 
     displayResults();
