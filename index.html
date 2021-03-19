@@ -127,31 +127,27 @@
   </div>
     </main>
 
-<!-- Modal -->
-<div
-class="modal fade"
-id="errorModal"
-tabindex="-1"
-aria-labelledby="exampleModalLabel"
-aria-hidden="true"
->
-<div class="modal-dialog modal-dialog-centered">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel"></h5>
-      <button
-        type="button"
-        class="btn-close"
-        data-mdb-dismiss="modal"
-        aria-label="Close"
-      ></button>
+    <!-- Modal -->
+    <div
+    class="modal fade"
+    id="errorModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+    >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"></h5>
+        </div>
+        <div class="modal-body">
+          <p id="modal-content"></p>
+        </div>
+      </div>
     </div>
-    <div class="modal-body">
-      <p id="modal-content"></p>
     </div>
-  </div>
-</div>
-</div>
+
+
     <!-- These images of rain clouds may be called upon if user's precipitation is greater than 30% -->
     <img id="rain-cloud-left" src="./assets/images/rain-cloud.png" alt="rain cloud on left side" style="visibility: hidden;">
     <img id="rain-cloud-right" src="./assets/images/rain-cloud.png" alt="rain cloud on right side" style="visibility: hidden;">
@@ -167,36 +163,6 @@ aria-hidden="true"
 
     <!-- These images will be displayed once the user enters their zip code, and it will reflect their current time (updated hourly) -->
     
-
-    <!-- Modal -->
-<div
-class="modal fade"
-id="errorModal"
-tabindex="-1"
-aria-labelledby="exampleModalLabel"
-aria-hidden="true"
->
-<div class="modal-dialog">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-      <button
-        type="button"
-        class="btn-close"
-        data-mdb-dismiss="modal"
-        aria-label="Close"
-      ></button>
-    </div>
-    <div class="modal-body">...</div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
-        Close
-      </button>
-      <button type="button" class="btn btn-primary">OK</button>
-    </div>
-  </div>
-</div>
-</div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"></script>

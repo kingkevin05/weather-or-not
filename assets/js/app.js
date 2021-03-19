@@ -182,28 +182,6 @@ async function aqIndex(lat, lon) {
   }
 }
 
-var conditionRecs = async function (event) {
-  await getWeatherInfo();
-  console.log("tempValue variable: ", tempValue);
-  if (tempValue > 40 && tempValue < 55) {
-    message.innerHTML = "It's nippy out! Good idea to bring a jacket if you're going outside. <br>Here are some cool events to choose from.</br>";
-  }
-  if (tempValue > 55 && tempValue < 65) {
-    message.innerHTML = "Weather's looking cool. Bring a jacket if you're going outside, just in case. <br>Here are some cool events to choose from.</br>";
-  }
-  if (tempValue >65 || aqIndex < 50) {
-    message.innerHTML = "Cowabunga! It's a nice day to spend some time outside. <br>Here's what's in the area.</br>";
-  }
-  if (tempValue < 40 || aqiValue > 100) {
-    message.innerHTML = "Weather’s not looking too good, cheers to indoor fun! <br>Check these events out.</br>";
-  }
-  if (aqIndex > 50) {
-    message.innerHTML = "Moderate air quality may pose a risk to those sensitive to air pollution. Consider staying inside. <br>Here are some cool events to choose from.</br>";
-  }
-  if (aqIndex > 100) {
-    message.innerHTML = "Stay inside to avoid unhealthy air quality! <br>Here are some cool events to choose from.</br>";
-  }
-};
 
 var initMap = function () {};
 
@@ -214,6 +192,9 @@ var convertMiles = function (miles) {
 var modalCall = function(text) {
     $("#modal-content").text(text);
     $("#errorModal").modal('show');
+    setTimeout(function(){
+        $('#errorModal').modal('hide');
+    }, 4000);
 }
 // search button handler
 var search = async function (event) {
@@ -223,12 +204,22 @@ var search = async function (event) {
   var cityInput = $("#city-name").val();
   if (tempValue > 50 && aqiValue < 100) {
     console.log(cityInput);
-    if (tempValue > 50 && tempValue < 70) {
-        modalCall("Looks windy/chilly! Might be a good idea to bring a jacket");
-    } else {
-        modalCall("It’s a nice day to spend some time outside. Here’s what’s happening in your area");
+    // weather conditions
+    if (tempValue > 40 && tempValue < 55) {
+        modalCall("It's nippy out! Good idea to bring a jacket if you're going outside. Here are some cool events to choose from.");
     }
-    
+    if (tempValue > 55 && tempValue < 65) {
+        modalCall("Weather's looking cool. Bring a jacket if you're going outside, just in case. Here are some cool events to choose from.");
+    }
+    if (tempValue > 65 || aqiValue < 50) {
+        modalCall("Cowabunga! It's a nice day to spend some time outside. Here's what's in the area.");
+    }
+    if (aqiValue > 50) {
+        modalCall("Moderate air quality may pose a risk to those sensitive to air pollution. Consider staying inside. Here are some cool events to choose from.");
+    }
+    if (aqiValue > 100) {
+        modalCall("Stay inside to avoid unhealthy air quality! Here are some cool events to choose from.");
+    }
     var apiKeyGoogle = "AIzaSyCRrUY50j7ci46YCar9Ha27GiIPBPP5BdA";
     // used await to wait for the geocode api call to responde before moving on
     var response = await fetch(
@@ -259,7 +250,7 @@ var search = async function (event) {
       });
     }
   } else {
-    modalCall("Boo, weather’s not looking too good, cheers to indoor fun!")
+    modalCall("Weather’s not looking too good, cheers to indoor fun! Check these events out.");
     getEvents(page);
 
     displayResults();
