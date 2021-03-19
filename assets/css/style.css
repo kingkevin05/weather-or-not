@@ -36,6 +36,7 @@ body {
   color: #F1EB8A;
   border-left: 14px solid white;
   border-right: 14px solid white;
+  border-radius: 20px;
   margin-bottom: 20px;
   background: white;
   position: relative;
@@ -88,6 +89,16 @@ h3 {
   font-family:Arial, Helvetica, sans-serif;
   font-weight: bold;
   color: white;
+	text-shadow: -1px 1px 2px #000,
+				  1px 1px 2px #000,
+				  1px -1px 0 #000,
+				  -1px -1px 0 #000;
+}
+
+h4 {
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  color: #9ED5F0;
 	text-shadow: -1px 1px 2px #000,
 				  1px 1px 2px #000,
 				  1px -1px 0 #000,
@@ -183,4 +194,19 @@ p {
 /* this ID is responsible for spacing for the Weather or Not Div */
 #spacing-from-top{
   padding-top: 25px;
+}
+
+
+
+.list-group-item-text{
+  
+}
+
+.list-group {
+  border-radius: 20px;
+  background: ;
+}
+
+.venue {
+  color: #F1EB8A;
 }
