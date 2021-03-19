@@ -198,13 +198,15 @@ p {
 
 
 
-.list-group-item-text{
-  
+.list-group-item{
+  background-image: url(../images/galaxy-background.gif);
+  z-index: -1;
+  background-attachment: fixed;
+  background-size: 1200px 1200px;
 }
 
 .list-group {
   border-radius: 20px;
-  background: ;
 }
 
 .venue {
