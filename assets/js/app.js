@@ -106,7 +106,6 @@ var getWeatherInfo = async function () {
     cityInput.value +
     "&units=imperial&appid=9795009f60d5d1c3afe4e6df6002c319";
 
-
   var response = await fetch(apiUrl);
   if (response.ok) {
     console.log(response);
@@ -125,10 +124,10 @@ var getWeatherInfo = async function () {
     uvIndex(data.coord.lat, data.coord.lon);
     await aqIndex(data.coord.lat, data.coord.lon);
     console.log(moment.unix(searchTime).format(" hh:mm a"));
-    
+
     cityDisplay.innerHTML = nameValue;
-        //  + " " + currentDate.format("LT"); (this used to be attached to the code above, but i took it out since i moved local time to upper right corner)
-        // I left this ^ code commented out in case we need it later.
+    //  + " " + currentDate.format("LT"); (this used to be attached to the code above, but i took it out since i moved local time to upper right corner)
+    // I left this ^ code commented out in case we need it later.
 
     description.innerHTML = "* " + descriptionValue + " *";
     temp.innerHTML = "Temperature: " + tempValue + " °F";
@@ -183,7 +182,6 @@ async function aqIndex(lat, lon) {
   }
 }
 
-
 var conditionRecs = async function (event) {
   await getWeatherInfo();
   console.log("tempValue variable: ", tempValue);
@@ -206,7 +204,6 @@ var conditionRecs = async function (event) {
     message.innerHTML = "Stay inside to avoid unhealthy air quality! <br>Here are some cool events to choose from.</br>";
   }
 };
-
 
 var initMap = function () {};
 
@@ -250,7 +247,6 @@ var search = async function (event) {
           console.log(status);
         }
       });
-
     }
   } else {
    
@@ -272,7 +268,6 @@ var search = async function (event) {
 
 var page = 0;
 // var events = [0];
-
 
 function getEvents(page) {
   $("#events-panel").show();
