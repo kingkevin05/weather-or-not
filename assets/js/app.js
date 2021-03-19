@@ -4,7 +4,8 @@ var tempValue;
 var aqiValue;
 var cityInput = document.querySelector("#city-name");
 var searchBtn = document.querySelector("#search-button");
-var cityDisplay = document.querySelector(".city");
+var nameDisplay = document.querySelector(".name");
+var timeDisplay = document.querySelector(".time");
 var localTime = document.querySelector("#localTime");
 var description = document.querySelector(".description");
 var temp = document.querySelector(".temp");
@@ -125,7 +126,7 @@ var getWeatherInfo = async function () {
     await aqIndex(data.coord.lat, data.coord.lon);
     console.log(moment.unix(searchTime).format(" hh:mm a"));
 
-    cityDisplay.innerHTML = nameValue;
+    nameDisplay.innerHTML = nameValue;
     //  + " " + currentDate.format("LT"); (this used to be attached to the code above, but i took it out since i moved local time to upper right corner)
     // I left this ^ code commented out in case we need it later.
 
@@ -154,9 +155,8 @@ function uvIndex(lat, lon) {
         console.log(data);
         var uviValue = data.current.uvi;
         var searchTime = parseInt(data.current.dt);
-        var nameValue = data.name;
         console.log(moment.unix(searchTime).format(" hh:mm a"));
-        cityDisplay.innerHTML = nameValue + ", " + (moment.unix(searchTime).format(" h:mm a"));
+        timeDisplay.innerHTML = moment.unix(searchTime).format(" h:mm a");
         uvi.innerHTML = "UV Index: " + uviValue;
       });
     }
