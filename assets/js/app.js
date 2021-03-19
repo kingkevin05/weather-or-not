@@ -282,11 +282,6 @@ $("#search-button").on("click", search);
 
 
 // Aidan's code resides down here lol
-// testing git push after cloning repo
-
-
-
-
 
 
 
