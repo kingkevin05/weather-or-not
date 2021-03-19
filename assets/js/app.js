@@ -2,6 +2,7 @@
 var locationObj;
 var tempValue;
 var aqiValue;
+var isError = false;
 var cityInput = document.querySelector("#city-name");
 var searchBtn = document.querySelector("#search-button");
 var nameDisplay = document.querySelector(".name");
@@ -15,7 +16,6 @@ var humidity = document.querySelector(".humidity");
 var wind = document.querySelector(".wind");
 var uvi = document.querySelector(".uvi");
 var message = document.querySelector(".message");
-var fetchErrorMessage = document.getElementById("errorModal");
 
 var stuffTodo = document.getElementById("stuff-todo");
 
@@ -82,6 +82,7 @@ var states = [
   "WY",
 ];
 
+
 function updateTime() {
   // date and time
   var displayCurrentDate = document.querySelector("#today");
@@ -91,12 +92,22 @@ function updateTime() {
 }
 setInterval(updateTime, 1000);
 
+// error modal instead of alert
+var errorModalCall = function(text) {
+    $("#modal-content").text("Error: " + text);
+    $("#modal-footer").append('<button type="button" class="btn-primary" data-mdb-dismiss="modal" aria-label="Close">OK</button>');
+    $("#errorModal").modal('show');
+    isError = true;
+}
+
+
 for (var i = 0; i < states.length; i++) {
   let newOption = document.createElement("option");
   newOption.value = states[i];
   newOption.innerText = states[i];
   selectElement.appendChild(newOption);
 }
+
 
 var modalCall = function (text) {
   $("#modal-content").text(text);
@@ -106,6 +117,7 @@ var modalCall = function (text) {
   }, 4000);
 };
 
+
 var getWeatherInfo = async function () {
   var apiUrl =
     "http://api.openweathermap.org/data/2.5/weather?q=" +
@@ -113,6 +125,7 @@ var getWeatherInfo = async function () {
     "&units=imperial&appid=9795009f60d5d1c3afe4e6df6002c319";
 
   var response = await fetch(apiUrl);
+  console.log(response);
   if (response.ok) {
     console.log(response);
     var data = await response.json();
@@ -141,7 +154,9 @@ var getWeatherInfo = async function () {
     humidity.innerHTML = "Humidity: " + humidityValue + "%";
     wind.innerHTML = "Wind Speed: " + windValue + " MPH";
   } else {
+
     modalCall("Error: " + response.statusText);
+
   }
 };
 
@@ -163,7 +178,12 @@ function uvIndex(lat, lon) {
         timeDisplay.innerHTML = moment.unix(searchTime).format(" h:mm a");
         uvi.innerHTML = "UV Index: " + uviValue;
       });
+    } else {
+       errorModalCall(response.statusText);
     }
+  })
+  .catch(function(error){
+    errorModalCall("Network Error");
   });
 }
 
@@ -184,6 +204,9 @@ async function aqIndex(lat, lon) {
     aqiValue = data.list[0].main.aqi;
     aqi.innerHTML = "Air Quality Index: " + aqiValue;
   }
+  else {
+      errorModalCall(response.statusText);
+  }
 }
 
 var initMap = function () {};
@@ -192,14 +215,21 @@ var convertMiles = function (miles) {
   return miles * 1609.34;
 };
 
+
 // search button handler
 var search = async function (event) {
   // call weather function in order to get weather info
   await getWeatherInfo();
+
+  if (isError) {
+      return;
+  }
+
   // getting input text
   var cityInput = $("#city-name").val();
   if (tempValue > 50 && aqiValue < 100) {
     console.log(cityInput);
+
     // weather conditions
     if (tempValue > 40 && tempValue < 55) {
       modalCall(
@@ -226,6 +256,7 @@ var search = async function (event) {
         "Stay inside to avoid unhealthy air quality! Here are some cool events to choose from."
       );
     }
+
     var apiKeyGoogle = "AIzaSyCRrUY50j7ci46YCar9Ha27GiIPBPP5BdA";
     // used await to wait for the geocode api call to responde before moving on
     var response = await fetch(
@@ -233,7 +264,15 @@ var search = async function (event) {
         apiKeyGoogle +
         "&address=" +
         cityInput
-    );
+    )
+    .catch(function(error){
+        errorModalCall("Network Error");
+      });
+
+    if (isError) {
+        return;
+    }
+
     if (response.ok) {
       // converts the response into object
       var data = await response.json();
@@ -249,18 +288,39 @@ var search = async function (event) {
       };
       service.textSearch(request, function (results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          console.log(results);
+            console.log(results);
+            // weather conditions
+            if (tempValue < 55) {
+                modalCall("It's nippy out! Good idea to bring a jacket if you're going outside. Here are some cool events to choose from.");
+            }
+            else if (tempValue > 55 && tempValue < 65) {
+                modalCall("Weather's looking cool. Bring a jacket if you're going outside, just in case. Here are some cool events to choose from.");
+            }
+            else if (tempValue > 65 || aqiValue < 50) {
+                modalCall("Cowabunga! It's a nice day to spend some time outside. Here's what's in the area.");
+            }
+            else if (aqiValue > 50) {
+                modalCall("Moderate air quality may pose a risk to those sensitive to air pollution. Consider staying inside. Here are some cool events to choose from.");
+            }
         } else {
-          console.log(status);
+            errorModalCall(status);
         }
       });
+    } else {
+        errorModalCall(response.statusText);
     }
   } else {
+
     modalCall(
       "Weather’s not looking too good, cheers to indoor fun! Check these events out."
     );
-    getEvents(page);
 
+    getEvents(page);
+    if (aqiValue > 100) {
+        modalCall("Stay inside to avoid unhealthy air quality! Here are some cool events to choose from.");
+    } else {
+        modalCall("Weather’s not looking too good, cheers to indoor fun! Check these events out.");
+    };
     displayResults();
   }
   function displayResults() {
@@ -276,6 +336,10 @@ var page = 0;
 // var events = [0];
 
 function getEvents(page) {
+  if (isError) {
+      return;
+  }
+
   $("#events-panel").show();
   $("#attraction-panel").hide();
 
@@ -304,7 +368,7 @@ function getEvents(page) {
       showEvents(json);
     },
     error: function (xhr, status, err) {
-      console.log(err);
+       errorModalCall(err);
     },
   });
 }
@@ -330,7 +394,7 @@ function showEvents(json) {
             events[i]._embedded.venues[0].state.name
         );
     } catch (err) {
-      console.log(err);
+      errorModalCall(err);
     }
     item.show();
     item.off("click");
@@ -339,7 +403,7 @@ function showEvents(json) {
       try {
         getAttraction(eventObject.data._embedded.attractions[0].id);
       } catch (err) {
-        console.log(err);
+        errorModalCall(err);
       }
     });
     item = item.next();
@@ -367,7 +431,7 @@ function getAttraction(id) {
       showAttraction(json);
     },
     error: function (xhr, status, err) {
-      console.log(err);
+      errorModalCall(err);
     },
   });
 }
