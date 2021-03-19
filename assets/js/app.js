@@ -214,8 +214,34 @@ var search = async function (event) {
   var cityInput = $("#city-name").val();
   if (tempValue > 50 && aqiValue < 100) {
     console.log(cityInput);
-    
-   
+
+    // weather conditions
+    if (tempValue > 40 && tempValue < 55) {
+      modalCall(
+        "It's nippy out! Good idea to bring a jacket if you're going outside. Here are some cool events to choose from."
+      );
+    }
+    if (tempValue > 55 && tempValue < 65) {
+      modalCall(
+        "Weather's looking cool. Bring a jacket if you're going outside, just in case. Here are some cool events to choose from."
+      );
+    }
+    if (tempValue > 65 || aqiValue < 50) {
+      modalCall(
+        "Cowabunga! It's a nice day to spend some time outside. Here's what's in the area."
+      );
+    }
+    if (aqiValue > 50) {
+      modalCall(
+        "Moderate air quality may pose a risk to those sensitive to air pollution. Consider staying inside. Here are some cool events to choose from."
+      );
+    }
+    if (aqiValue > 100) {
+      modalCall(
+        "Stay inside to avoid unhealthy air quality! Here are some cool events to choose from."
+      );
+    }
+
     var apiKeyGoogle = "AIzaSyCRrUY50j7ci46YCar9Ha27GiIPBPP5BdA";
     // used await to wait for the geocode api call to responde before moving on
     var response = await fetch(
