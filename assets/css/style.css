@@ -2,11 +2,7 @@
   box-sizing: border-box;
 }
 
-.zip-input {
-    margin: auto;
-    width:auto;
-}
-
+/* this class is used to display the moving .gif file as the background for the page */
 body {
   background-image: url(../images/background-image-main.gif);
   background-size: cover;
@@ -16,14 +12,58 @@ body {
   z-index: -2;
 }
 
-.still-background {
+/* this class will be used later to display the still image that reflects the time ofthe searched city */
+/* .still-background {
   background-size: cover;
   height: 100vh;
   padding:0;
   margin:0;
   z-index: -1;
+} */
+
+/* these classes and IDs are responsible for the header animation when the page loads */
+.animation h1{
+  color: white;
+  text-transform: uppercase;
+  display: block;
 }
 
+#text1{
+  font-size: 50px;
+  font-weight: 700;
+  letter-spacing: 8px;
+  margin-bottom: 10px;
+  color: #F1EB8A;
+  border-left: 14px solid white;
+  border-right: 14px solid white;
+  margin-bottom: 20px;
+  background: white;
+  position: relative;
+  animation: text 3s 1;
+}
+
+#text2{
+  font-size: 35px;
+  color: #9ED5F0;
+}
+
+@keyframes text {
+  0%{
+    color: white;
+    margin-bottom: -40px;
+  }
+  30%{
+    letter-spacing: 25px;
+    margin-bottom: -40px;
+  }
+  85%{
+    letter-spacing: 8px;
+    margin-bottom: -40px;
+  }
+}
+/* END section that is responsible for the header animation when the page loads */
+
+/* these three classes are used for the fonts and font shadowing seen throughout the page */
 h1 {
   font-family:Arial, Helvetica, sans-serif;
   font-weight: bold;
@@ -64,7 +104,9 @@ p {
 				  1px -1px 0 #000,
 				  -1px -1px 0 #000;
 }
+/* END font shadowing section*/
 
+/* These classes are used to position and size the images of: rain clouds, smog, and overcast clouds */
 #rain-cloud-left {
   position: absolute;
   opacity: 75%;
@@ -124,16 +166,21 @@ p {
   max-width: 45%;
   max-height: 35%;
 }
+/* END section for images of: rain clouds, smog, and overcast clouds */
 
+/* This was just used to make the spacing of the zip code input look neater */
 .zip-padding {
   padding-left: 25px;
   padding-right: 10px;
 }
 
-.stroke-with-blur-radius{
-	color: #1266f1;
-	text-shadow: -1px 1px 2px #000,
-				  1px 1px 2px #000,
-				  1px -1px 0 #000,
-				  -1px -1px 0 #000;
+.zip-input {
+  margin: auto;
+  width:auto;
+}
+/* END zip code styling section */
+
+/* this ID is responsible for spacing for the Weather or Not Div */
+#spacing-from-top{
+  padding-top: 25px;
 }
