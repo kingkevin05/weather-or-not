@@ -13,6 +13,8 @@ var aqi = document.querySelector(".aqi");
 var humidity = document.querySelector(".humidity");
 var wind = document.querySelector(".wind");
 var uvi = document.querySelector(".uvi");
+var message = document.querySelector(".message");
+var fetchErrorMessage = document.getElementById("errorModal");
 
 var stuffTodo = document.getElementById("stuff-todo")
 
@@ -79,6 +81,12 @@ var states = [
   "WY",
 ];
 
+// error modal instead of alert
+var errorModal = function() {
+
+};
+
+
 // date and time
 var displayCurrentDate = document.querySelector("#today");
 var currentDate = moment();
@@ -98,35 +106,37 @@ var getWeatherInfo = async function () {
     cityInput.value +
     "&units=imperial&appid=9795009f60d5d1c3afe4e6df6002c319";
 
+  var response = await fetch(apiUrl);
+  if (response.ok) {
+    console.log(response);
+    var data = await response.json();
+    var nameValue = data.name;
+    var descriptionValue = data.weather[0].description;
+    tempValue = data.main.temp;
+    var feelsLikeValue = data.main.feels_like;
+    var humidityValue = data.main.humidity;
+    var windValue = data.wind.speed;
+    console.log(data);
+    var searchTime = parseInt(data.dt);
+    console.log(searchTime);
+;    var lat = data.coord.lon;
+    var lon = data.coord.lat;
+    uvIndex(data.coord.lat, data.coord.lon);
+    await aqIndex(data.coord.lat, data.coord.lon);
+    console.log(moment.unix(searchTime).format(" hh:mm a"));
 
-    var response = await fetch(apiUrl)
-    if (response.ok) {
-        console.log(response);
-        var data = await response.json()
-        var nameValue = data.name;
-        var descriptionValue = data.weather[0].description;
-        tempValue = data.main.temp;
-        var feelsLikeValue = data.main.feels_like;
-        var humidityValue = data.main.humidity;
-        var windValue = data.wind.speed;
-        console.log(data);
-        var lat = data.coord.lon;
-        var lon = data.coord.lat;
-        uvIndex(data.coord.lat, data.coord.lon);
-        await aqIndex(data.coord.lat, data.coord.lon);
+    cityDisplay.innerHTML = nameValue;
+    //  + " " + currentDate.format("LT"); (this used to be attached to the code above, but i took it out since i moved local time to upper right corner)
+    // I left this ^ code commented out in case we need it later.
 
-        cityDisplay.innerHTML = nameValue;
-        //  + " " + currentDate.format("LT"); (this used to be attached to the code above, but i took it out since i moved local time to upper right corner)
-        // I left this ^ code commented out in case we need it later.
-        
-        description.innerHTML = descriptionValue;
-        temp.innerHTML = "Temperature: " + tempValue + " °F";
-        feelsLike.innerHTML = "Feels like: " + feelsLikeValue + " °F";
-        humidity.innerHTML = "Humidity: " + humidityValue + "%";
-        wind.innerHTML = "Wind Speed: " + windValue + " MPH";
-    } else {
-        alert("Error: " + response.statusText);
-    }
+    description.innerHTML = "* " + descriptionValue + " *";
+    temp.innerHTML = "Temperature: " + tempValue + " °F";
+    feelsLike.innerHTML = "Feels like: " + feelsLikeValue + " °F";
+    humidity.innerHTML = "Humidity: " + humidityValue + "%";
+    wind.innerHTML = "Wind Speed: " + windValue + " MPH";
+  } else {
+    alert("Error: " + response.statusText);
+  }
 
 };
 
@@ -143,6 +153,10 @@ function uvIndex(lat, lon) {
       response.json().then(function (data) {
         console.log(data);
         var uviValue = data.current.uvi;
+        var searchTime = parseInt(data.current.dt);
+        var nameValue = data.name;
+        console.log(moment.unix(searchTime).format(" hh:mm a"));
+        cityDisplay.innerHTML = nameValue + ", " + (moment.unix(searchTime).format(" h:mm a"));
         uvi.innerHTML = "UV Index: " + uviValue;
       });
     }
@@ -167,6 +181,29 @@ async function aqIndex(lat, lon) {
     aqi.innerHTML = "Air Quality Index: " + aqiValue;
   }
 }
+
+var conditionRecs = async function (event) {
+  await getWeatherInfo();
+  console.log("tempValue variable: ", tempValue);
+  if (tempValue > 40 && tempValue < 55) {
+    message.innerHTML = "It's nippy out! Good idea to bring a jacket if you're going outside. <br>Here are some cool events to choose from.</br>";
+  }
+  if (tempValue > 55 && tempValue < 65) {
+    message.innerHTML = "Weather's looking cool. Bring a jacket if you're going outside, just in case. <br>Here are some cool events to choose from.</br>";
+  }
+  if (tempValue >65 || aqIndex < 50) {
+    message.innerHTML = "Cowabunga! It's a nice day to spend some time outside. <br>Here's what's in the area.</br>";
+  }
+  if (tempValue < 40 || aqiValue > 100) {
+    message.innerHTML = "Weather’s not looking too good, cheers to indoor fun! <br>Check these events out.</br>";
+  }
+  if (aqIndex > 50) {
+    message.innerHTML = "Moderate air quality may pose a risk to those sensitive to air pollution. Consider staying inside. <br>Here are some cool events to choose from.</br>";
+  }
+  if (aqIndex > 100) {
+    message.innerHTML = "Stay inside to avoid unhealthy air quality! <br>Here are some cool events to choose from.</br>";
+  }
+};
 
 var initMap = function () {};
 
