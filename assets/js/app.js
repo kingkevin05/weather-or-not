@@ -124,10 +124,6 @@ var getWeatherInfo = async function () {
     uvIndex(data.coord.lat, data.coord.lon);
     await aqIndex(data.coord.lat, data.coord.lon);
     console.log(moment.unix(searchTime).format(" hh:mm a"));
-    
-    cityDisplay.innerHTML = nameValue;
-        //  + " " + currentDate.format("LT"); (this used to be attached to the code above, but i took it out since i moved local time to upper right corner)
-        // I left this ^ code commented out in case we need it later.
 
     cityDisplay.innerHTML = nameValue;
     //  + " " + currentDate.format("LT"); (this used to be attached to the code above, but i took it out since i moved local time to upper right corner)
