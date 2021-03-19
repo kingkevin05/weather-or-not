@@ -321,7 +321,7 @@ function getEvents(page) {
     type: "GET",
     url:
       "https://app.ticketmaster.com/discovery/v2/events.json?city=" + cityInput.value + "&apikey=pAdhPaexdL7G6QTWjeRWLfA9jUIdgHHM&size=4&page=" +
-      page,
+      page + "&sort=date,asc",
     async: true,
     dataType: "json",
     success: function (json) {
