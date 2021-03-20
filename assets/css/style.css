@@ -64,6 +64,10 @@ body {
 }
 /* END section that is responsible for the header animation when the page loads */
 
+#search-button {
+  margin-left: 20px;
+}
+
 /* these three classes are used for the fonts and font shadowing seen throughout the page */
 h1 {
   font-family:Arial, Helvetica, sans-serif;
