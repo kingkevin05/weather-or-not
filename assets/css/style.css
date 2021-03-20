@@ -22,13 +22,13 @@ body {
 } */
 
 /* these classes and IDs are responsible for the header animation when the page loads */
-.animation h1{
+.animation h1 {
   color: white;
   text-transform: uppercase;
   display: block;
 }
 
-#text1{
+#text1 {
   font-size: 50px;
   font-weight: 700;
   letter-spacing: 8px;
@@ -36,13 +36,14 @@ body {
   color: #F1EB8A;
   border-left: 14px solid white;
   border-right: 14px solid white;
+  border-radius: 20px;
   margin-bottom: 20px;
   background: white;
   position: relative;
   animation: text 3s 1;
 }
 
-#text2{
+#text2 {
   font-size: 35px;
   color: #9ED5F0;
 }
@@ -92,6 +93,16 @@ h3 {
   font-family:Arial, Helvetica, sans-serif;
   font-weight: bold;
   color: white;
+	text-shadow: -1px 1px 2px #000,
+				  1px 1px 2px #000,
+				  1px -1px 0 #000,
+				  -1px -1px 0 #000;
+}
+
+h4 {
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  color: #9ED5F0;
 	text-shadow: -1px 1px 2px #000,
 				  1px 1px 2px #000,
 				  1px -1px 0 #000,
@@ -185,6 +196,38 @@ p {
 /* END zip code styling section */
 
 /* this ID is responsible for spacing for the Weather or Not Div */
-#spacing-from-top{
+#spacing-from-top {
   padding-top: 25px;
+}
+
+.list-group-item {
+  background-image: url(../images/galaxy-background.gif);
+  z-index: -1;
+  background-attachment: fixed;
+  background-size: 1200px 1200px;
+}
+
+.list-group {
+  border-radius: 20px;
+}
+
+.venue {
+  color: #F1EB8A;
+}
+
+
+
+#audio {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+
+}
+
+#lo-fi {
+    bottom:0;
+    position: absolute;
+    text-align: center;
 }
