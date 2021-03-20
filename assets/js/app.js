@@ -156,7 +156,7 @@ var getWeatherInfo = async function () {
     wind.innerHTML = "Wind Speed: " + windValue + " MPH";
   } else {
 
-    modalCall("Error: " + response.statusText);
+    errorModalCall(response.statusText);
 
   }
 };
@@ -174,9 +174,11 @@ function uvIndex(lat, lon) {
       response.json().then(function (data) {
         console.log(data);
         var uviValue = data.current.uvi;
+        var hourlyData = data.hourly
         var searchTime = parseInt(data.current.dt);
-        console.log(moment.unix(searchTime).format(" hh:mm a"));
-        timeDisplay.innerHTML = moment.unix(searchTime).format(" h:mm a");
+       var timeZone = data.timezone;
+        // console.log(moment.unix().format(" hh:mm a"));
+        timeDisplay.innerHTML = moment().tz(timeZone).format("h:mm A");
         uvi.innerHTML = "UV Index: " + uviValue;
       });
     } else {
