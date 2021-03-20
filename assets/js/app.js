@@ -93,6 +93,14 @@ function updateTime() {
 }
 setInterval(updateTime, 1000);
 
+// error modal instead of alert
+var errorModalCall = function(text) {
+    $("#modal-content").text("Error: " + text);
+    $("#modal-footer").append('<button type="button" class="btn-primary" data-mdb-dismiss="modal" aria-label="Close">OK</button>');
+    $("#errorModal").modal('show');
+    isError = true;
+}
+
 for (var i = 0; i < states.length; i++) {
   let newOption = document.createElement("option");
   newOption.value = states[i];
