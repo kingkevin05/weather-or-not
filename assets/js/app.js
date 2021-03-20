@@ -107,9 +107,10 @@ var modalCall = function (text) {
 };
 
 var getWeatherInfo = async function () {
-  var apiUrl =
+    var statesInput = $("#states").val();
+    var apiUrl =
     "http://api.openweathermap.org/data/2.5/weather?q=" +
-    cityInput.value + "," + states[i] +
+    cityInput.value.trim() + ", " + statesInput + ", " + "US" +
     "&units=imperial&appid=9795009f60d5d1c3afe4e6df6002c319";
 
   var response = await fetch(apiUrl);
@@ -205,7 +206,9 @@ var convertMiles = function (miles) {
 
 // search button handler
 var search = async function (event) {
-  // call weather function in order to get weather info
+  // call weather function in order to get weather info states
+    var stateInput = $("#states").val();
+
   await getWeatherInfo();
 
   if (isError) {
@@ -250,7 +253,7 @@ var search = async function (event) {
       "https://maps.googleapis.com/maps/api/geocode/json?key=" +
         apiKeyGoogle +
         "&address=" +
-        cityInput
+        cityInput.trim() + ", " + stateInput + ", " + "US"
     )
     .catch(function(error){
         errorModalCall("Network Error");
@@ -321,6 +324,7 @@ var page = 0;
 // var events = [0];
 
 function getEvents(page) {
+    var stateInput = $("#states").val();
   if (isError) {
       return;
   }
@@ -342,7 +346,7 @@ function getEvents(page) {
     type: "GET",
     url:
       "https://app.ticketmaster.com/discovery/v2/events.json?city=" +
-      cityInput.value +
+      cityInput.value.trim() + "&stateCode=" + stateInput + "&countryCode=US" +
       "&apikey=pAdhPaexdL7G6QTWjeRWLfA9jUIdgHHM&size=4&page=" +
       page +
       "&sort=date,asc",
