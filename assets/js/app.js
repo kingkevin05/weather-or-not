@@ -3,6 +3,8 @@ var locationObj;
 var tempValue;
 var aqiValue;
 var isError = false;
+var timerId;
+var recentSearches = JSON.parse(localStorage.getItem("recents") || "[]");
 var cityInput = document.querySelector("#city-name");
 var searchBtn = document.querySelector("#search-button");
 var nameDisplay = document.querySelector(".name");
@@ -18,7 +20,7 @@ var uvi = document.querySelector(".uvi");
 var message = document.querySelector(".message");
 
 var stuffTodo = document.getElementById("stuff-todo");
-
+console.log(stuffTodo);
 var selectElement = document.getElementById("states");
 var states = [
   "AL",
@@ -82,7 +84,6 @@ var states = [
   "WY",
 ];
 
-
 function updateTime() {
   // date and time
   var displayCurrentDate = document.querySelector("#today");
@@ -100,14 +101,12 @@ var errorModalCall = function(text) {
     isError = true;
 }
 
-
 for (var i = 0; i < states.length; i++) {
   let newOption = document.createElement("option");
   newOption.value = states[i];
   newOption.innerText = states[i];
   selectElement.appendChild(newOption);
 }
-
 
 var modalCall = function (text) {
   $("#modal-content").text(text);
@@ -117,12 +116,14 @@ var modalCall = function (text) {
   }, 4000);
 };
 
-
-var getWeatherInfo = async function () {
-    var statesInput = $("#states").val();
-    var apiUrl =
+var getWeatherInfo = async function (city, state) {
+  var apiUrl =
     "http://api.openweathermap.org/data/2.5/weather?q=" +
-    cityInput.value.trim() + ", " + statesInput + ", " + "US" +
+    city +
+    ", " +
+    state +
+    ", " +
+    "US" +
     "&units=imperial&appid=9795009f60d5d1c3afe4e6df6002c319";
 
   var response = await fetch(apiUrl);
@@ -154,12 +155,37 @@ var getWeatherInfo = async function () {
     feelsLike.innerHTML = "Feels like: " + feelsLikeValue + " °F";
     humidity.innerHTML = "Humidity: " + humidityValue + "%";
     wind.innerHTML = "Wind Speed: " + windValue + " MPH";
+    var newWeatherItem = { city: city, state: state };
+
+    // unshift is like push but at front
+    recentSearches.unshift(newWeatherItem);
+    // pushing array back into local storage
+    localStorage.setItem("recents", JSON.stringify(recentSearches));
   } else {
-
     errorModalCall(response.statusText);
-
   }
 };
+
+
+function renderButtons() {
+  console.log(recentSearches);
+  var $previousSearches = $("<h4>").text("Previous Searches");
+  $("#recent-search").append($previousSearches);
+  recentSearches.forEach(function(el) {
+    var $button = $("<button>").text(el.city + ", " + el.state);
+    $button.addClass("previousSearches");
+    console.log($button);
+    $("#recent-search").append($button);
+    $button.on("click", function() {
+      var txt = $(this).text(); 
+      console.log(txt);
+      let city = txt.split(",")[0].trim(); 
+      let state = txt.split(",")[1].trim();
+      getWeatherInfo(city, state)
+    })
+  })
+};
+renderButtons();
 
 function uvIndex(lat, lon) {
   var uviUrl =
@@ -168,26 +194,31 @@ function uvIndex(lat, lon) {
     "&lon=" +
     lon +
     "&appid=9795009f60d5d1c3afe4e6df6002c319";
-  fetch(uviUrl).then(function (response) {
-    if (response.ok) {
-      console.log(response);
-      response.json().then(function (data) {
-        console.log(data);
-        var uviValue = data.current.uvi;
-        var hourlyData = data.hourly
-        var searchTime = parseInt(data.current.dt);
-       var timeZone = data.timezone;
-        // console.log(moment.unix().format(" hh:mm a"));
-        timeDisplay.innerHTML = moment().tz(timeZone).format("h:mm A");
-        uvi.innerHTML = "UV Index: " + uviValue;
-      });
-    } else {
-       errorModalCall(response.statusText);
-    }
-  })
-  .catch(function(error){
-    errorModalCall("Network Error");
-  });
+  // clear existing timer
+  clearInterval(timerId);
+  fetch(uviUrl)
+    .then(function (response) {
+      if (response.ok) {
+        console.log(response);
+        response.json().then(function (data) {
+          console.log(data);
+          var uviValue = data.current.uvi;
+          var hourlyData = data.hourly;
+          var searchTime = parseInt(data.current.dt);
+          var timeZone = data.timezone;
+          console.log(timeZone);
+          timerId = setInterval(() => {
+            timeDisplay.innerHTML = moment().tz(timeZone).format("h:mm A");
+          }, 1000);
+          uvi.innerHTML = "UV Index: " + uviValue;
+        });
+      } else {
+        errorModalCall(response.statusText);
+      }
+    })
+    .catch(function (error) {
+      errorModalCall("Network Error: " + response.statusText);
+    });
 }
 
 async function aqIndex(lat, lon) {
@@ -206,9 +237,8 @@ async function aqIndex(lat, lon) {
     console.log(data);
     aqiValue = data.list[0].main.aqi;
     aqi.innerHTML = "Air Quality Index: " + aqiValue;
-  }
-  else {
-      errorModalCall(response.statusText);
+  } else {
+    errorModalCall(response.statusText);
   }
 }
 
@@ -218,20 +248,19 @@ var convertMiles = function (miles) {
   return miles * 1609.34;
 };
 
-
 // search button handler
 var search = async function (event) {
+  var cityInput = $("#city-name").val().trim();
   // call weather function in order to get weather info states
-    var stateInput = $("#states").val();
+  var state = $("#states").val();
 
-  await getWeatherInfo();
+  await getWeatherInfo(cityInput, state);
 
   if (isError) {
-      return;
+    return;
   }
 
   // getting input text
-  var cityInput = $("#city-name").val();
   if (tempValue > 50 && aqiValue < 100) {
     console.log(cityInput);
 
@@ -268,14 +297,17 @@ var search = async function (event) {
       "https://maps.googleapis.com/maps/api/geocode/json?key=" +
         apiKeyGoogle +
         "&address=" +
-        cityInput.trim() + ", " + stateInput + ", " + "US"
-    )
-    .catch(function(error){
-        errorModalCall("Network Error");
-      });
+        cityInput.trim() +
+        ", " +
+        state +
+        ", " +
+        "US"
+    ).catch(function (error) {
+      errorModalCall("Network Error");
+    });
 
     if (isError) {
-        return;
+      return;
     }
 
     if (response.ok) {
@@ -293,39 +325,46 @@ var search = async function (event) {
       };
       service.textSearch(request, function (results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-            console.log(results);
-            // weather conditions
-            if (tempValue < 55) {
-                modalCall("It's nippy out! Good idea to bring a jacket if you're going outside. Here are some cool events to choose from.");
-            }
-            else if (tempValue > 55 && tempValue < 65) {
-                modalCall("Weather's looking cool. Bring a jacket if you're going outside, just in case. Here are some cool events to choose from.");
-            }
-            else if (tempValue > 65 || aqiValue < 50) {
-                modalCall("Cowabunga! It's a nice day to spend some time outside. Here's what's in the area.");
-            }
-            else if (aqiValue > 50) {
-                modalCall("Moderate air quality may pose a risk to those sensitive to air pollution. Consider staying inside. Here are some cool events to choose from.");
-            }
+          console.log(results);
+          // weather conditions
+          if (tempValue < 55) {
+            modalCall(
+              "It's nippy out! Good idea to bring a jacket if you're going outside. Here are some cool events to choose from."
+            );
+          } else if (tempValue > 55 && tempValue < 65) {
+            modalCall(
+              "Weather's looking cool. Bring a jacket if you're going outside, just in case. Here are some cool events to choose from."
+            );
+          } else if (tempValue > 65 || aqiValue < 50) {
+            modalCall(
+              "Cowabunga! It's a nice day to spend some time outside. Here's what's in the area."
+            );
+          } else if (aqiValue > 50) {
+            modalCall(
+              "Moderate air quality may pose a risk to those sensitive to air pollution. Consider staying inside. Here are some cool events to choose from."
+            );
+          }
         } else {
-            errorModalCall(status);
+          errorModalCall(status);
         }
       });
     } else {
-        errorModalCall(response.statusText);
+      errorModalCall(response.statusText);
     }
   } else {
-
     modalCall(
       "Weather’s not looking too good, cheers to indoor fun! Check these events out."
     );
-
     getEvents(page);
     if (aqiValue > 100) {
-        modalCall("Stay inside to avoid unhealthy air quality! Here are some cool events to choose from.");
+      modalCall(
+        "Stay inside to avoid unhealthy air quality! Here are some cool events to choose from."
+      );
     } else {
-        modalCall("Weather’s not looking too good, cheers to indoor fun! Check these events out.");
-    };
+      modalCall(
+        "Weather’s not looking too good, cheers to indoor fun! Check these events out."
+      );
+    }
     displayResults();
   }
   function displayResults() {
@@ -341,9 +380,9 @@ var page = 0;
 // var events = [0];
 
 function getEvents(page) {
-    var stateInput = $("#states").val();
+  var stateInput = $("#states").val();
   if (isError) {
-      return;
+    return;
   }
 
   $("#events-panel").show();
@@ -363,7 +402,10 @@ function getEvents(page) {
     type: "GET",
     url:
       "https://app.ticketmaster.com/discovery/v2/events.json?city=" +
-      cityInput.value.trim() + "&stateCode=" + stateInput + "&countryCode=US" +
+      cityInput.value.trim() +
+      "&stateCode=" +
+      stateInput +
+      "&countryCode=US" +
       "&apikey=pAdhPaexdL7G6QTWjeRWLfA9jUIdgHHM&size=4&page=" +
       page +
       "&sort=date,asc",
@@ -374,7 +416,7 @@ function getEvents(page) {
       showEvents(json);
     },
     error: function (xhr, status, err) {
-       errorModalCall(err);
+      errorModalCall(err);
     },
   });
 }
