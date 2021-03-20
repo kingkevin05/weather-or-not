@@ -22,13 +22,13 @@ body {
 } */
 
 /* these classes and IDs are responsible for the header animation when the page loads */
-.animation h1{
+.animation h1 {
   color: white;
   text-transform: uppercase;
   display: block;
 }
 
-#text1{
+#text1 {
   font-size: 50px;
   font-weight: 700;
   letter-spacing: 8px;
@@ -43,7 +43,7 @@ body {
   animation: text 3s 1;
 }
 
-#text2{
+#text2 {
   font-size: 35px;
   color: #9ED5F0;
 }
@@ -192,13 +192,11 @@ p {
 /* END zip code styling section */
 
 /* this ID is responsible for spacing for the Weather or Not Div */
-#spacing-from-top{
+#spacing-from-top {
   padding-top: 25px;
 }
 
-
-
-.list-group-item{
+.list-group-item {
   background-image: url(../images/galaxy-background.gif);
   z-index: -1;
   background-attachment: fixed;
@@ -211,4 +209,21 @@ p {
 
 .venue {
   color: #F1EB8A;
+}
+
+
+
+#audio {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+
+}
+
+#lo-fi {
+    bottom:0;
+    position: absolute;
+    text-align: center;
 }
