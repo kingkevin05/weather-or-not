@@ -7,6 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
     integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
     crossorigin="anonymous"></script>
+    <script src="https://momentjs.com/downloads/moment-timezone-with-data.min.js"></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
       rel="stylesheet" />
@@ -38,7 +39,7 @@
     <main class="flex-row justify-space-between">
       <div id="city-search"> 
         <div>
-          <h3 class="d-flex justify-content-center">Enter city below:</h3>
+          <h3 class="d-flex justify-content-center">Enter city and state below:</h3>
           <div class="input-group mb-3 zip-input d-flex justify-content-center">
             <input
             type="text"
@@ -46,6 +47,7 @@
             name="city"
             autofocus="true"
             class="form-input"
+            placeholder="Enter city here"
             />
             <h3 class="zip-padding">State:</h3>
             <div class="dropdown">
