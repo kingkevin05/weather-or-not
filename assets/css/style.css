@@ -66,6 +66,7 @@ body {
 
 #search-button {
   margin-left: 20px;
+  border-radius: 4px;
 }
 
 /* these three classes are used for the fonts and font shadowing seen throughout the page */
