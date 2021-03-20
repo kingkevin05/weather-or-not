@@ -20,6 +20,7 @@ var uvi = document.querySelector(".uvi");
 var message = document.querySelector(".message");
 
 var stuffTodo = document.getElementById("stuff-todo");
+console.log(stuffTodo);
 var selectElement = document.getElementById("states");
 var states = [
   "AL",
@@ -157,12 +158,23 @@ var getWeatherInfo = async function (city, state) {
   }
 };
 
+
 function renderButtons() {
   console.log(recentSearches);
+  var $previousSearches = $("<h4>").text("Previous Searches");
+  $("#recent-search").append($previousSearches);
   recentSearches.forEach(function(el) {
     var $button = $("<button>").text(el.city + ", " + el.state);
+    $button.addClass("previousSearches");
     console.log($button);
-    $("#attraction-panel").appendTo($button);
+    $("#recent-search").append($button);
+    $button.on("click", function() {
+      var txt = $(this).text(); 
+      console.log(txt);
+      let city = txt.split(",")[0].trim(); 
+      let state = txt.split(",")[1].trim();
+      getWeatherInfo(city, state)
+    })
   })
 };
 renderButtons();
