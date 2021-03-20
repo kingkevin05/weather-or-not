@@ -32,7 +32,7 @@
       
       <div class="date align-self-center">
         <h3><span id="today"></span></h3>
-        <h3><span id="localTime"></span></h3>
+        <h3>Local Time: <span id="localTime"></span></h3>
       </div>
     </header>
     
@@ -62,7 +62,6 @@
       <div id="results" class="d-flex align-self-center">
         <div class="col-4 text-center" id="weather-results">
           <h1 class="name"></h1>
-          <h2 class="time"></h2>
           <h3 class="description" id="get-description"></h3>
           
           <p class="temp"></p>
@@ -124,9 +123,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  </div>
     </main>
 
     <!-- Modal -->
@@ -150,6 +146,12 @@
     </div>
     </div>
 
+    <div id="lo-fi">
+      <h4>Lo-fi Music Player</h4>
+      <audio controls autoplay loop>
+        <source src="./assets/audio/lofi-background-music.mp3" type="audio/mpeg" />
+      </audio>
+    </div>
 
     <!-- These images of rain clouds may be called upon if user's precipitation is greater than 30% -->
     <img id="rain-cloud-left" src="./assets/images/rain-cloud.png" alt="rain cloud on left side" style="visibility: hidden;">
@@ -163,9 +165,6 @@
     <!-- These images of overcast clouds will be called upon if weather says overcast or cloudy -->
     <img id="overcast-cloud-left" src="./assets/images/overcast-cloud.png" alt="overcast cloud on left side" style="visibility: hidden;">
     <img id="overcast-cloud-right" src="./assets/images/overcast-cloud.png" alt="overcast cloud on right side" style="visibility: hidden;">
-
-    <!-- These images will be displayed once the user enters their zip code, and it will reflect their current time (updated hourly) -->
-    
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"></script>
