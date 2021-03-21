@@ -20,6 +20,13 @@ var uvi = document.querySelector(".uvi");
 var message = document.querySelector(".message");
 
 var stuffTodo = document.getElementById("stuff-todo");
+var outDoor = document.getElementById("outdoor");
+
+var outdoorName = document.querySelector(".place-name");
+var outdoorAddress = document.querySelector(".place-address");
+var outdoorRating = document.querySelector(".place-rating");
+var outdoorPhotos = document.querySelector(".photos");
+
 console.log(stuffTodo);
 var selectElement = document.getElementById("states");
 var states = [
@@ -94,12 +101,14 @@ function updateTime() {
 setInterval(updateTime, 1000);
 
 // error modal instead of alert
-var errorModalCall = function(text) {
-    $("#modal-content").text("Error: " + text);
-    $("#modal-footer").append('<button type="button" class="btn-primary" data-mdb-dismiss="modal" aria-label="Close">OK</button>');
-    $("#errorModal").modal('show');
-    isError = true;
-}
+var errorModalCall = function (text) {
+  $("#modal-content").text("Error: " + text);
+  $("#modal-footer").append(
+    '<button type="button" class="btn-primary" data-mdb-dismiss="modal" aria-label="Close">OK</button>'
+  );
+  $("#errorModal").modal("show");
+  isError = true;
+};
 
 for (var i = 0; i < states.length; i++) {
   let newOption = document.createElement("option");
@@ -166,25 +175,24 @@ var getWeatherInfo = async function (city, state) {
   }
 };
 
-
 function renderButtons() {
   console.log(recentSearches);
   var $previousSearches = $("<h4>").text("Previous Searches");
   $("#recent-search").append($previousSearches);
-  recentSearches.forEach(function(el) {
+  recentSearches.forEach(function (el) {
     var $button = $("<button>").text(el.city + ", " + el.state);
     $button.addClass("previousSearches");
     console.log($button);
     $("#recent-search").append($button);
-    $button.on("click", function() {
-      var txt = $(this).text(); 
+    $button.on("click", function () {
+      var txt = $(this).text();
       console.log(txt);
-      let city = txt.split(",")[0].trim(); 
+      let city = txt.split(",")[0].trim();
       let state = txt.split(",")[1].trim();
-      getWeatherInfo(city, state)
-    })
-  })
-};
+      getWeatherInfo(city, state);
+    });
+  });
+}
 renderButtons();
 
 function uvIndex(lat, lon) {
@@ -318,6 +326,7 @@ var search = async function (event) {
       var service = new google.maps.places.PlacesService(
         $("#stuff-todo").get(0)
       );
+
       var request = {
         query: "hiking trails",
         location: new google.maps.LatLng(locationObj.lat, locationObj.lng),
@@ -326,6 +335,25 @@ var search = async function (event) {
       service.textSearch(request, function (results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           console.log(results);
+          for (let i = 0; i < results.length; i++) {
+            let hikePlace = results[i].name;
+            let hikeAddress = results[i].formatted_address;
+            let hikeRating = results[i].rating;
+            let hikePhotos = results[i].photos[0];
+            console.log(hikePlace, hikeAddress, hikeRating, hikePhotos);
+
+            var newH1 = document.createElement("h1");
+            var newH2 = document.createElement("h2");
+            var newH3 = document.createElement("h3");
+
+            newH1.textContent = hikePlace;
+            newH2.textContent = hikeAddress;
+            newH3.textContent = "Rating: " + hikeRating + " / 5";
+            
+            outDoor.append(newH1, newH2, newH3);
+            
+          }
+
           // weather conditions
           if (tempValue < 55) {
             modalCall(
@@ -371,7 +399,9 @@ var search = async function (event) {
     if (stuffTodo.style.display == "" || stuffTodo.style.display == "none") {
       stuffTodo.style.display = "block";
     } else {
-      stuffTodo.style.display = "none";
+      modalCall(
+        "Weather’s not looking too good, cheers to indoor fun! Check these events out."
+      );
     }
   }
 };
@@ -451,7 +481,7 @@ function showEvents(json) {
       try {
         getAttraction(eventObject.data._embedded.attractions[0].id);
       } catch (err) {
-        errorModalCall(err);
+        // errorModalCall(err);
       }
     });
     item = item.next();
