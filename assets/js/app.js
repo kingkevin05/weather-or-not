@@ -323,7 +323,9 @@ var search = async function (event) {
       var data = await response.json();
       // getting the lat and long from the converted response
       locationObj = data.results[0].geometry.location;
-      var service = new google.maps.places.PlacesService($("#stuff-todo").get(0));
+      var service = new google.maps.places.PlacesService(
+        $("#stuff-todo").get(0)
+      );
 
       var request = {
         query: "hiking trails",
@@ -340,11 +342,18 @@ var search = async function (event) {
             let hikePhotos = results[i].photos[0];
             console.log(hikePlace, hikeAddress, hikeRating, hikePhotos);
 
-            outdoorName.innerText = hikePlace;
-            outdoorAddress.innerHTML = hikeAddress;
-            outdoorRating.innerHTML = "Rating: " + hikeRating;
-            // outdoorPhotos.innerHTML = hikePhotos;
+            var newH1 = document.createElement("h1");
+            var newH2 = document.createElement("h2");
+            var newH3 = document.createElement("h3");
+
+            newH1.textContent = hikePlace;
+            newH2.textContent = hikeAddress;
+            newH3.textContent = "Rating: " + hikeRating + " / 5";
+            
+            outDoor.append(newH1, newH2, newH3);
+            
           }
+
           // weather conditions
           if (tempValue < 55) {
             modalCall(
@@ -480,7 +489,7 @@ function showEvents(json) {
       try {
         getAttraction(eventObject.data._embedded.attractions[0].id);
       } catch (err) {
-        errorModalCall(err);
+        // errorModalCall(err);
       }
     });
     item = item.next();
