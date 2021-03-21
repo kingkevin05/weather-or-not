@@ -403,15 +403,7 @@ var search = async function (event) {
         "Weather’s not looking too good, cheers to indoor fun! Check these events out."
       );
     }
-    // displayResults();
   }
-  // function displayResults() {
-  //   if (stuffTodo.style.display == "" || stuffTodo.style.display == "none") {
-  //     stuffTodo.style.display = "block";
-  //   } else {
-  //     stuffTodo.style.display = "none";
-  //   }
-  // }
 };
 
 var page = 0;
