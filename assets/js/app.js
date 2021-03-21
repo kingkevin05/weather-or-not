@@ -3,6 +3,8 @@ var locationObj;
 var tempValue;
 var aqiValue;
 var isError = false;
+var timerId;
+var recentSearches = JSON.parse(localStorage.getItem("recents") || "[]");
 var cityInput = document.querySelector("#city-name");
 var searchBtn = document.querySelector("#search-button");
 var nameDisplay = document.querySelector(".name");
@@ -20,10 +22,12 @@ var message = document.querySelector(".message");
 var stuffTodo = document.getElementById("stuff-todo");
 var outDoor = document.getElementById("outdoor");
 
-var outdoorName = document.querySelector("#place-name");
-var outdoorAddress = document.querySelector("#place-address");
-var outdoorRating = document.querySelector("#place-rating");
+var outdoorName = document.querySelector(".place-name");
+var outdoorAddress = document.querySelector(".place-address");
+var outdoorRating = document.querySelector(".place-rating");
+var outdoorPhotos = document.querySelector(".photos");
 
+console.log(stuffTodo);
 var selectElement = document.getElementById("states");
 var states = [
   "AL",
@@ -121,13 +125,12 @@ var modalCall = function (text) {
   }, 4000);
 };
 
-var getWeatherInfo = async function () {
-  var statesInput = $("#states").val();
+var getWeatherInfo = async function (city, state) {
   var apiUrl =
     "http://api.openweathermap.org/data/2.5/weather?q=" +
-    cityInput.value.trim() +
+    city +
     ", " +
-    statesInput +
+    state +
     ", " +
     "US" +
     "&units=imperial&appid=9795009f60d5d1c3afe4e6df6002c319";
@@ -161,10 +164,36 @@ var getWeatherInfo = async function () {
     feelsLike.innerHTML = "Feels like: " + feelsLikeValue + " °F";
     humidity.innerHTML = "Humidity: " + humidityValue + "%";
     wind.innerHTML = "Wind Speed: " + windValue + " MPH";
+    var newWeatherItem = { city: city, state: state };
+
+    // unshift is like push but at front
+    recentSearches.unshift(newWeatherItem);
+    // pushing array back into local storage
+    localStorage.setItem("recents", JSON.stringify(recentSearches));
   } else {
     errorModalCall(response.statusText);
   }
 };
+
+function renderButtons() {
+  console.log(recentSearches);
+  var $previousSearches = $("<h4>").text("Previous Searches");
+  $("#recent-search").append($previousSearches);
+  recentSearches.forEach(function (el) {
+    var $button = $("<button>").text(el.city + ", " + el.state);
+    $button.addClass("previousSearches");
+    console.log($button);
+    $("#recent-search").append($button);
+    $button.on("click", function () {
+      var txt = $(this).text();
+      console.log(txt);
+      let city = txt.split(",")[0].trim();
+      let state = txt.split(",")[1].trim();
+      getWeatherInfo(city, state);
+    });
+  });
+}
+renderButtons();
 
 function uvIndex(lat, lon) {
   var uviUrl =
@@ -173,6 +202,8 @@ function uvIndex(lat, lon) {
     "&lon=" +
     lon +
     "&appid=9795009f60d5d1c3afe4e6df6002c319";
+  // clear existing timer
+  clearInterval(timerId);
   fetch(uviUrl)
     .then(function (response) {
       if (response.ok) {
@@ -183,8 +214,10 @@ function uvIndex(lat, lon) {
           var hourlyData = data.hourly;
           var searchTime = parseInt(data.current.dt);
           var timeZone = data.timezone;
-          // console.log(moment.unix().format(" hh:mm a"));
-          timeDisplay.innerHTML = moment().tz(timeZone).format("h:mm A");
+          console.log(timeZone);
+          timerId = setInterval(() => {
+            timeDisplay.innerHTML = moment().tz(timeZone).format("h:mm A");
+          }, 1000);
           uvi.innerHTML = "UV Index: " + uviValue;
         });
       } else {
@@ -192,7 +225,7 @@ function uvIndex(lat, lon) {
       }
     })
     .catch(function (error) {
-      errorModalCall("Network Error");
+      errorModalCall("Network Error: " + response.statusText);
     });
 }
 
@@ -225,17 +258,17 @@ var convertMiles = function (miles) {
 
 // search button handler
 var search = async function (event) {
+  var cityInput = $("#city-name").val().trim();
   // call weather function in order to get weather info states
-  var stateInput = $("#states").val();
+  var state = $("#states").val();
 
-  await getWeatherInfo();
+  await getWeatherInfo(cityInput, state);
 
   if (isError) {
     return;
   }
 
   // getting input text
-  var cityInput = $("#city-name").val();
   if (tempValue > 50 && aqiValue < 100) {
     console.log(cityInput);
 
@@ -274,7 +307,7 @@ var search = async function (event) {
         "&address=" +
         cityInput.trim() +
         ", " +
-        stateInput +
+        state +
         ", " +
         "US"
     ).catch(function (error) {
@@ -290,8 +323,8 @@ var search = async function (event) {
       var data = await response.json();
       // getting the lat and long from the converted response
       locationObj = data.results[0].geometry.location;
-      var service = new google.maps.places.PlacesService( $("#outdoor").get(0));
-      $("#outdoor").get(0);
+      var service = new google.maps.places.PlacesService($("#stuff-todo").get(0));
+
       var request = {
         query: "hiking trails",
         location: new google.maps.LatLng(locationObj.lat, locationObj.lng),
@@ -307,9 +340,10 @@ var search = async function (event) {
             let hikePhotos = results[i].photos[0];
             console.log(hikePlace, hikeAddress, hikeRating, hikePhotos);
 
-            outdoorName.textContent = "name: " + hikePlace;
-            outdoorAddress.innerHTML = "address: " + hikeAddress;
+            outdoorName.innerText = hikePlace;
+            outdoorAddress.innerHTML = hikeAddress;
             outdoorRating.innerHTML = "Rating: " + hikeRating;
+            // outdoorPhotos.innerHTML = hikePhotos;
           }
           // weather conditions
           if (tempValue < 55) {
@@ -340,12 +374,21 @@ var search = async function (event) {
     modalCall(
       "Weather’s not looking too good, cheers to indoor fun! Check these events out."
     );
-
     getEvents(page);
     if (aqiValue > 100) {
       modalCall(
         "Stay inside to avoid unhealthy air quality! Here are some cool events to choose from."
       );
+    } else {
+      modalCall(
+        "Weather’s not looking too good, cheers to indoor fun! Check these events out."
+      );
+    }
+    displayResults();
+  }
+  function displayResults() {
+    if (stuffTodo.style.display == "" || stuffTodo.style.display == "none") {
+      stuffTodo.style.display = "block";
     } else {
       modalCall(
         "Weather’s not looking too good, cheers to indoor fun! Check these events out."
