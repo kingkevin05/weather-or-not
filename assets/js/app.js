@@ -173,7 +173,7 @@ var getWeatherInfo = async function (city, state) {
     wind.innerHTML = "Wind Speed: " + windValue + " MPH";
     var newWeatherItem = { city: city, state: state };
 
-    // unshift is like push but to front
+    // unshift is like .push() but to front
     recentSearches.unshift(newWeatherItem);
     // pushing array back into local storage
     localStorage.setItem("recents", JSON.stringify(recentSearches));
@@ -181,28 +181,6 @@ var getWeatherInfo = async function (city, state) {
     errorModalCall(response.statusText);
   }
 };
-
-// render previous search buttons
-function renderButtons() {
-  console.log(recentSearches);
-  var $previousSearches = $("<h5>").text("Previous Searches");
-  $("#recent-search").append($previousSearches);
-  recentSearches.forEach(function (el) {
-    var $button = $("<button>").text(el.city + ", " + el.state);
-    $button.addClass("previousSearches");
-    console.log($button);
-    $("#recent-search").append($button);
-    $button.on("click", function () {
-      var txt = $(this).text();
-      console.log(txt);
-      let city = txt.split(",")[0].trim();
-      let state = txt.split(",")[1].trim();
-      getWeatherInfo(city, state);
-      
-    });
-  });
-}
-renderButtons();
 
 // call uvi in separate onecall api
 function uvIndex(lat, lon) {
@@ -219,12 +197,10 @@ function uvIndex(lat, lon) {
       if (response.ok) {
         console.log(response);
         response.json().then(function (data) {
-          console.log(data);
+          // console.log(data);
           var uviValue = data.current.uvi;
-          var hourlyData = data.hourly;
-          var searchTime = parseInt(data.current.dt);
           var timeZone = data.timezone;
-          console.log(timeZone);
+          // console.log(timeZone);
           timerId = setInterval(() => {
             timeDisplay.innerHTML = moment().tz(timeZone).format("h:mm A");
           }, 1000);
@@ -261,8 +237,6 @@ async function aqIndex(lat, lon) {
   }
 }
 
-var initMap = function () {};
-
 var convertMiles = function (miles) {
   return miles * 1609.34;
 };
@@ -287,7 +261,7 @@ var search = async function (event) {
     // weather conditions
     if (tempValue > 40 && tempValue <= 55) {
       modalCall(
-        "It's nippy out! Good idea to bring a jacket if you're going outside. Here are some cool events to choose from."
+        "It's nippy out! Good idea to bring a jacket if you're going outside. Here's what's in the area."
       );
     }
     if (tempValue > 55 && tempValue <= 65) {
@@ -295,7 +269,7 @@ var search = async function (event) {
         "Weather's looking cool. Bring a jacket if you're going outside, just in case. Here are some cool events to choose from."
       );
     }
-    if (tempValue > 65 || aqiValue <= 50) {
+    if (tempValue > 65 && aqiValue <= 50) {
       modalCall(
         "Cowabunga! It's a nice day to spend some time outside. Here's what's in the area."
       );
@@ -395,13 +369,13 @@ var search = async function (event) {
           // weather conditions
           if (tempValue <= 55) {
             modalCall(
-              "It's nippy out! Good idea to bring a jacket if you're going outside. Here are some cool events to choose from."
+              "It's nippy out! Good idea to bring a jacket if you're going outside. Here's what's in the area."
             );
           } else if (tempValue > 55 && tempValue <= 65) {
             modalCall(
               "Weather's looking cool. Bring a jacket if you're going outside, just in case. Here are some cool events to choose from."
             );
-          } else if (tempValue > 65 || aqiValue <= 50) {
+          } else if (tempValue > 65 && aqiValue <= 50) {
             modalCall(
               "Cowabunga! It's a nice day to spend some time outside. Here's what's in the area."
             );
@@ -618,9 +592,33 @@ function showAttraction(json) {
       " - " +
       json.classifications[0].subGenre.name
   );
-}
+  }
 
 $("#search-button").on("click", search);
+
+// render previous search buttons
+function renderButtons() {
+  console.log(recentSearches);
+  var $previousSearches = $("<h5>").text("Previous Searches");
+  $("#recent-search").append($previousSearches);
+  recentSearches.forEach(function (el) {
+    var $button = $("<button>").text(el.city + ", " + el.state);
+    $button.addClass("previousSearches");
+    console.log($button);
+    $("#recent-search").append($button);
+    $button.on("click", function () {
+      var txt = $(this).text();
+      console.log(txt);
+      let city = txt.split(",")[0].trim();
+      let state = txt.split(",")[1].trim();
+      getWeatherInfo(city, state);
+      // uvIndex(lat, lon)
+      // aqIndex(lat, lon)
+      search();
+    });
+  });
+}
+renderButtons();
 
 // Aidan's code resides down here lol
 
