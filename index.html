@@ -4,57 +4,75 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
-    integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
-    crossorigin="anonymous"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+      integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+      crossorigin="anonymous"
+    ></script>
     <script src="https://momentjs.com/downloads/moment-timezone-with-data.min.js"></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
     <link
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-      rel="stylesheet" />
+      rel="stylesheet"
+    />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css"
-      rel="stylesheet" />
-    <link rel="stylesheet" href="./assets/css/style.css"/>
-    <link 
-    href='https://fonts.googleapis.com/css?family=Advent Pro'
-    rel='stylesheet' />
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Advent Pro"
+      rel="stylesheet"
+    />
     <title>Weather or Not</title>
   </head>
   <body>
+<<<<<<< HEAD
     <header class="jumbotron text-center d-flex justify-content-around ">
+=======
+    <header class="jumbotron text-center d-flex justify-content-around">
+      <div class="animation" id="spacing-from-top">
+>>>>>>> 706aa3df67f3c6f101b52d36be9978a9fabae2e9
         <h1 id="text1">Weather</h1>
         <h1 id="text2">or Not</h1>
       </div>
-      
+
       <div class="date align-self-center">
         <h3><span id="today"></span></h3>
         <h3>Local Time: <span id="localTime"></span></h3>
       </div>
     </header>
-    
+
     <main class="flex-row justify-space-between">
-      <div id="city-search"> 
+      <div id="city-search">
         <div>
-          <h3 class="d-flex justify-content-center">Enter city and state below:</h3>
+          <h3 class="d-flex justify-content-center">
+            Enter city and state below:
+          </h3>
           <div class="input-group mb-3 zip-input d-flex justify-content-center">
             <input
-            type="text"
-            id="city-name"
-            name="city"
-            autofocus="true"
-            class="form-input"
-            placeholder="Enter city here"
+              type="text"
+              id="city-name"
+              name="city"
+              autofocus="true"
+              class="form-input"
+              placeholder="Enter city here"
             />
             <h3 class="zip-padding">State:</h3>
             <div class="dropdown">
-              <select name="states" id="states">
-    
-              </select>
+              <select name="states" id="states"></select>
             </div>
-            <button class="btn btn-primary" type="submit" id="search-button" onclick="runTimeOut()">SEARCH</button>
+            <button
+              class="btn btn-primary"
+              type="submit"
+              id="search-button"
+              onclick="runTimeOut()"
+            >
+              SEARCH
+            </button>
           </div>
         </div>
       </div>
@@ -63,7 +81,7 @@
           <h1 class="name"></h1>
           <h2 class="time"></h2>
           <h3 class="description" id="get-description"></h3>
-          
+
           <p class="temp"></p>
           <p class="feels-like"></p>
           <p class="aqi"></p>
@@ -72,8 +90,10 @@
           <p class="uvi"></p>
         </div>
 
-        <div id="stuff-todo" style="display:none">
-          <div id='events-panel' class="panel panel-primary">
+        <div id="outdoor" class=""></div>
+
+        <div id="stuff-todo">
+          <div id="events-panel" class="panel panel-primary">
             <div class="panel-heading">
               <h3 class="panel-title"></h3>
             </div>
@@ -104,25 +124,27 @@
             <div class="panel-footer">
               <nav>
                 <ul class="pager">
-                  <li id="prev" class="previous"><a href="#"><span aria-hidden="true">&larr;</span></a></li>
-                  <li id="next" class="next"><a href="#"><span aria-hidden="true">&rarr;</span></a></li>
+                  <li id="prev" class="previous">
+                    <a href="#"><span aria-hidden="true">&larr;</span></a>
+                  </li>
+                  <li id="next" class="next">
+                    <a href="#"><span aria-hidden="true">&rarr;</span></a>
+                  </li>
                 </ul>
               </nav>
             </div>
           </div>
 
-          <div id='attraction-panel' class="panel panel-primary">
+          <div id="attraction-panel" class="panel panel-primary">
             <div class="panel-heading">
               <h3 class="panel-title"></h3>
             </div>
             <div id="attraction" class="panel-body">
               <h4 class="list-group-item-heading"></h4>
-              <img class="" src="">
+              <img class="" src="" />
               <p id="classification"></p>
             </div>
           </div>
-
-          
         </div>
         <div id="recent-search"></div>
       </div>
@@ -130,48 +152,83 @@
 
     <!-- Modal -->
     <div
-    class="modal fade"
-    id="errorModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
+      class="modal fade"
+      id="errorModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
     >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel"></h5>
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"></h5>
+          </div>
+          <div class="modal-body">
+            <p id="modal-content"></p>
+          </div>
+          <div class="modal-footer" id="modal-footer"></div>
         </div>
-        <div class="modal-body">
-          <p id="modal-content"></p>
-        </div>
-        <div class="modal-footer" id="modal-footer"></div>
       </div>
-    </div>
     </div>
 
     <div id="lo-fi">
       <h4>Lo-fi Music Player</h4>
       <audio controls autoplay loop>
-        <source src="./assets/audio/lofi-background-music.mp3" type="audio/mpeg" />
+        <source
+          src="./assets/audio/lofi-background-music.mp3"
+          type="audio/mpeg"
+        />
       </audio>
     </div>
 
     <!-- These images of rain clouds may be called upon if user's precipitation is greater than 30% -->
-    <img id="rain-cloud-left" src="./assets/images/rain-cloud.png" alt="rain cloud on left side" style="visibility: hidden;">
-    <img id="rain-cloud-right" src="./assets/images/rain-cloud.png" alt="rain cloud on right side" style="visibility: hidden;">
+    <img
+      id="rain-cloud-left"
+      src="./assets/images/rain-cloud.png"
+      alt="rain cloud on left side"
+      style="visibility: hidden"
+    />
+    <img
+      id="rain-cloud-right"
+      src="./assets/images/rain-cloud.png"
+      alt="rain cloud on right side"
+      style="visibility: hidden"
+    />
 
     <!-- These images of smog clouds may be called upon if user's AQI is greater than 100 -->
-    <img id="smog-left" src="./assets/images/smog.png" alt="smog on left side" style="visibility: hidden;">
-    <img id="smog-right" src="./assets/images/smog.png" alt="smog on right side" style="visibility: hidden;">
-
+    <img
+      id="smog-left"
+      src="./assets/images/smog.png"
+      alt="smog on left side"
+      style="visibility: hidden"
+    />
+    <img
+      id="smog-right"
+      src="./assets/images/smog.png"
+      alt="smog on right side"
+      style="visibility: hidden"
+    />
 
     <!-- These images of overcast clouds will be called upon if weather says overcast or cloudy -->
-    <img id="overcast-cloud-left" src="./assets/images/overcast-cloud.png" alt="overcast cloud on left side" style="visibility: hidden;">
-    <img id="overcast-cloud-right" src="./assets/images/overcast-cloud.png" alt="overcast cloud on right side" style="visibility: hidden;">
+    <img
+      id="overcast-cloud-left"
+      src="./assets/images/overcast-cloud.png"
+      alt="overcast cloud on left side"
+      style="visibility: hidden"
+    />
+    <img
+      id="overcast-cloud-right"
+      src="./assets/images/overcast-cloud.png"
+      alt="overcast cloud on right side"
+      style="visibility: hidden"
+    />
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"></script>
-    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRrUY50j7ci46YCar9Ha27GiIPBPP5BdA&libraries=places&callback=initMap"></script>
-    <script src="./assets/js/app.js"></script> 
+    <script
+      async
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRrUY50j7ci46YCar9Ha27GiIPBPP5BdA&libraries=places&callback=initMap"
+    ></script>
+    <script src="./assets/js/app.js"></script>
   </body>
 </html>
