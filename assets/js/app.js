@@ -85,7 +85,7 @@ var states = [
 ];
 
 function updateTime() {
-  // date and time
+  // user's local date and time
   var displayCurrentDate = document.querySelector("#today");
   var currentDate = moment();
   displayCurrentDate.textContent = currentDate.format("dddd, MMMM Do YYYY");
@@ -101,6 +101,7 @@ var errorModalCall = function(text) {
     isError = true;
 }
 
+// states dropdown
 for (var i = 0; i < states.length; i++) {
   let newOption = document.createElement("option");
   newOption.value = states[i];
@@ -108,6 +109,7 @@ for (var i = 0; i < states.length; i++) {
   selectElement.appendChild(newOption);
 }
 
+// modal popup for 4 seconds
 var modalCall = function (text) {
   $("#modal-content").text(text);
   $("#errorModal").modal("show");
@@ -116,6 +118,7 @@ var modalCall = function (text) {
   }, 4000);
 };
 
+// weather call
 var getWeatherInfo = async function (city, state) {
   var apiUrl =
     "http://api.openweathermap.org/data/2.5/weather?q=" +
@@ -157,7 +160,7 @@ var getWeatherInfo = async function (city, state) {
     wind.innerHTML = "Wind Speed: " + windValue + " MPH";
     var newWeatherItem = { city: city, state: state };
 
-    // unshift is like push but at front
+    // unshift is like push but to front
     recentSearches.unshift(newWeatherItem);
     // pushing array back into local storage
     localStorage.setItem("recents", JSON.stringify(recentSearches));
@@ -166,7 +169,7 @@ var getWeatherInfo = async function (city, state) {
   }
 };
 
-
+// render previous search buttons
 function renderButtons() {
   console.log(recentSearches);
   var $previousSearches = $("<h4>").text("Previous Searches");
@@ -187,6 +190,7 @@ function renderButtons() {
 };
 renderButtons();
 
+// call uvi in separate onecall api
 function uvIndex(lat, lon) {
   var uviUrl =
     "https://api.openweathermap.org/data/2.5/onecall?lat=" +
@@ -221,6 +225,7 @@ function uvIndex(lat, lon) {
     });
 }
 
+// call aqi inn separate air pollution api
 async function aqIndex(lat, lon) {
   var aqiUrl =
     "http://api.openweathermap.org/data/2.5/air_pollution?lat=" +
@@ -265,17 +270,17 @@ var search = async function (event) {
     console.log(cityInput);
 
     // weather conditions
-    if (tempValue > 40 && tempValue < 55) {
+    if (tempValue > 40 && tempValue <= 55) {
       modalCall(
         "It's nippy out! Good idea to bring a jacket if you're going outside. Here are some cool events to choose from."
       );
     }
-    if (tempValue > 55 && tempValue < 65) {
+    if (tempValue > 55 && tempValue <= 65) {
       modalCall(
         "Weather's looking cool. Bring a jacket if you're going outside, just in case. Here are some cool events to choose from."
       );
     }
-    if (tempValue > 65 || aqiValue < 50) {
+    if (tempValue > 65 || aqiValue <= 50) {
       modalCall(
         "Cowabunga! It's a nice day to spend some time outside. Here's what's in the area."
       );
@@ -327,15 +332,15 @@ var search = async function (event) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           console.log(results);
           // weather conditions
-          if (tempValue < 55) {
+          if (tempValue <= 55) {
             modalCall(
               "It's nippy out! Good idea to bring a jacket if you're going outside. Here are some cool events to choose from."
             );
-          } else if (tempValue > 55 && tempValue < 65) {
+          } else if (tempValue > 55 && tempValue <= 65) {
             modalCall(
               "Weather's looking cool. Bring a jacket if you're going outside, just in case. Here are some cool events to choose from."
             );
-          } else if (tempValue > 65 || aqiValue < 50) {
+          } else if (tempValue > 65 || aqiValue <= 50) {
             modalCall(
               "Cowabunga! It's a nice day to spend some time outside. Here's what's in the area."
             );
