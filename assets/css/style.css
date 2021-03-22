@@ -6,6 +6,7 @@
   display: block;
   margin-bottom: 5px;
 }
+
 /* this class is used to display the moving .gif file as the background for the page */
 body {
   background-image: url(../images/background-image-main.gif);
