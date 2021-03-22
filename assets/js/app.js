@@ -21,11 +21,15 @@ var message = document.querySelector(".message");
 
 var stuffTodo = document.getElementById("stuff-todo");
 var outDoor = document.getElementById("outdoor");
+var trailsPanel = document.getElementById("trails-panel");
 
 var outdoorName = document.querySelector(".place-name");
 var outdoorAddress = document.querySelector(".place-address");
 var outdoorRating = document.querySelector(".place-rating");
 var outdoorPhotos = document.querySelector(".photos");
+var outdoorPage = 1;
+const itemsPerPage = 4;
+var outdoorResults;
 
 console.log(stuffTodo);
 var selectElement = document.getElementById("states");
@@ -181,7 +185,7 @@ var getWeatherInfo = async function (city, state) {
 // render previous search buttons
 function renderButtons() {
   console.log(recentSearches);
-  var $previousSearches = $("<h4>").text("Previous Searches");
+  var $previousSearches = $("<h5>").text("Previous Searches");
   $("#recent-search").append($previousSearches);
   recentSearches.forEach(function (el) {
     var $button = $("<button>").text(el.city + ", " + el.state);
@@ -264,6 +268,7 @@ var convertMiles = function (miles) {
 };
 
 // search button handler
+$("#stuff-todo").hide();
 var search = async function (event) {
   var cityInput = $("#city-name").val().trim();
   // call weather function in order to get weather info states
@@ -341,25 +346,51 @@ var search = async function (event) {
       };
       service.textSearch(request, function (results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
+          $("#stuff-todo").hide();
+          $("#outdoor").show();
+          $("#outdoor-pager").html("");
           console.log(results);
-          for (let i = 0; i < results.length; i++) {
-            let hikePlace = results[i].name;
-            let hikeAddress = results[i].formatted_address;
-            let hikeRating = results[i].rating;
-            let hikePhotos = results[i].photos[0];
-            console.log(hikePlace, hikeAddress, hikeRating, hikePhotos);
+          outdoorResults = results;
+          outdoorPage = 1;
+          let pager = document.getElementById("outdoor-pager");
 
-            var newH1 = document.createElement("h1");
-            var newH2 = document.createElement("h2");
-            var newH3 = document.createElement("h3");
+          let nextButton = document.createElement("li");
+          nextButton.id = "outdoor-next";
+          nextButton.class = "next";
 
-            newH1.textContent = hikePlace;
-            newH2.textContent = hikeAddress;
-            newH3.textContent = "Rating: " + hikeRating + " / 5";
-            
-            outDoor.append(newH1, newH2, newH3);
-            
-          }
+          let rightArrow = document.createElement("a");
+          rightArrow.href = "#";
+          rightArrow.innerHTML = "<span aria-hidden='true'>&rarr;</span>";
+          nextButton.append(rightArrow);
+
+          let prevButton = document.createElement("li");
+          prevButton.id = "outdoor-prev";
+          prevButton.class = "prev";
+
+          let leftArrow = document.createElement("a");
+          leftArrow.href = "#";
+          leftArrow.innerHTML = '<span aria-hidden="true">&larr;</span>'
+          prevButton.append(leftArrow);
+
+          pager.append(prevButton, nextButton);
+
+          $("#outdoor-next").on("click", function() {
+            if (outdoorPage == outdoorResults.length / itemsPerPage) {
+              return;
+            }
+            outdoorPage += 1;
+            showOutdoorActivities();
+          });
+          
+          $("#outdoor-prev").on("click", function() {
+            if (outdoorPage == 0) {
+              return;
+            }
+            outdoorPage -= 1;
+            showOutdoorActivities();
+          });
+          
+          showOutdoorActivities();
 
           // weather conditions
           if (tempValue <= 55) {
@@ -387,6 +418,8 @@ var search = async function (event) {
       errorModalCall(response.statusText);
     }
   } else {
+    $("#outdoor").hide();
+    $("#stuff-todo").show();
     modalCall(
       "Weather’s not looking too good, cheers to indoor fun! Check these events out."
     );
@@ -412,6 +445,53 @@ var search = async function (event) {
     }
   }
 };
+
+const showOutdoorActivities = function() {
+    $("#image-panel").hide();
+    $("#trails-panel").html("");
+    const results = outdoorResults;
+    const firstItemIndex = (outdoorPage - 1) * itemsPerPage
+    for (let i = firstItemIndex; i < firstItemIndex + itemsPerPage && i < results.length; i++) {
+        let hikePlace = results[i].name;
+        let hikeAddress = results[i].formatted_address;
+        let hikeRating = results[i].rating;
+        let hikePhotos;
+        if (results[i].photos != undefined && results[i].photos.length > 0) {
+          hikePhotos = results[i].photos[0];
+        }
+        console.log(hikePlace, hikeAddress, hikeRating, hikePhotos);
+        var hDiv = document.createElement("a");
+        hDiv.id = "outdoor-" + i;
+        hDiv.className = "list-group-item";
+        hDiv.href = "#";
+        var newH1 = document.createElement("h4");
+        newH1.className = "list-group-item-heading";
+        var newH2 = document.createElement("p");
+        newH2.className = "list-group-item-text";
+        var newH3 = document.createElement("p");
+        newH3.className = "list-group-item-text";
+
+        newH1.textContent = hikePlace;
+        newH2.textContent = hikeAddress;
+        newH3.textContent = "Rating: " + hikeRating + " / 5";
+
+        hDiv.append(newH1, newH2, newH3);
+        trailsPanel.append(hDiv);
+        
+        $("#outdoor-" + i).click(function(event) {
+          $("#trails-panel").hide();
+          if (hikePhotos != undefined) {
+            $("#image-panel").html("<img id=image-" + i + " src=" + hikePhotos.getUrl() + " style='height:400px;width:400px;'/>");
+            $("#image-" + i).click(function(event) {
+              $("#image-panel").hide();
+              $("#trails-panel").show();
+            })
+          }
+          $("#image-panel").show();
+        })            
+    }
+}
+
 
 var page = 0;
 // var events = [0];
