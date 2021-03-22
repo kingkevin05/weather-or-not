@@ -5,6 +5,7 @@
 .previousSearches{
   display: block;
   margin-bottom: 5px;
+  background-color: #9ED5F0;
 }
 
 /* this class is used to display the moving .gif file as the background for the page */
@@ -108,7 +109,17 @@ h3 {
 h4 {
   font-family:Arial, Helvetica, sans-serif;
   font-weight: bold;
-  color: #9ED5F0;
+  color:#9ED5F0;
+	text-shadow: -1px 1px 2px #000,
+				  1px 1px 2px #000,
+				  1px -1px 0 #000,
+				  -1px -1px 0 #000;
+}
+
+h5 {
+  font-family:Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  color:#F1EB8A;
 	text-shadow: -1px 1px 2px #000,
 				  1px 1px 2px #000,
 				  1px -1px 0 #000,
@@ -210,6 +221,7 @@ p {
 
 .list-group {
   border-radius: 20px;
+  background-image: url(../images/galaxy-background.gif);
 }
 
 .venue {
@@ -231,4 +243,19 @@ p {
     bottom:0;
     position: absolute;
     text-align: center;
+}
+
+#recent-search {
+  float: right;
+  height: 100px;
+  color:#F1EB8A;
+}
+
+.panel-footer {
+  display: none;
+}
+
+.list-group-item {
+  background-image: url(../images/galaxy-background.gif);
+  z-index: 0;
 }
