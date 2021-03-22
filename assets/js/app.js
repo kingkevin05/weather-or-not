@@ -177,7 +177,7 @@ var getWeatherInfo = async function (city, state) {
 
 function renderButtons() {
   console.log(recentSearches);
-  var $previousSearches = $("<h4>").text("Previous Searches");
+  var $previousSearches = $("<h5>").text("Previous Searches");
   $("#recent-search").append($previousSearches);
   recentSearches.forEach(function (el) {
     var $button = $("<button>").text(el.city + ", " + el.state);
