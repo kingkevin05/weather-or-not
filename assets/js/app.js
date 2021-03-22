@@ -198,6 +198,7 @@ function renderButtons() {
       let city = txt.split(",")[0].trim();
       let state = txt.split(",")[1].trim();
       getWeatherInfo(city, state);
+      
     });
   });
 }
