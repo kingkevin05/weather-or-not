@@ -615,8 +615,8 @@ function renderButtons() {
       // TO UPPER CASE.....
       // doesn't pop up until we refresh the page
       
-      let lat = data.coord.lat;
-      let lon = data.coord.lon;
+      // let lat = data.coord.lat;
+      // let lon = data.coord.lon;
       uvIndex(lat, lon)
       aqIndex(lat, lon)
       // on click, 
