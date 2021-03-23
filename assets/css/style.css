@@ -75,6 +75,11 @@ body {
   border-radius: 4px;
 }
 
+#modal-content {
+  color:lightslategrey;
+  text-shadow: none;
+}
+
 /* these three classes are used for the fonts and font shadowing seen throughout the page */
 h1 {
   font-family:Arial, Helvetica, sans-serif;

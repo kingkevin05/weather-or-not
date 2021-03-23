@@ -237,6 +237,8 @@ async function aqIndex(lat, lon) {
   }
 }
 
+var initMap = function () {};
+
 var convertMiles = function (miles) {
   return miles * 1609.34;
 };
@@ -612,8 +614,8 @@ function renderButtons() {
       let city = txt.split(",")[0].trim();
       let state = txt.split(",")[1].trim();
       getWeatherInfo(city, state);
-      // uvIndex(lat, lon)
-      // aqIndex(lat, lon)
+      uvIndex(lat, lon)
+      aqIndex(lat, lon)
       search();
     });
   });
