@@ -134,7 +134,7 @@ var modalCall = function (text) {
 // weather call
 var getWeatherInfo = async function (city, state) {
   var apiUrl =
-    "http://api.openweathermap.org/data/2.5/weather?q=" +
+    "https://api.openweathermap.org/data/2.5/weather?q=" +
     city +
     ", " +
     state +
@@ -216,7 +216,7 @@ function uvIndex(lat, lon) {
 // call aqi inn separate air pollution api
 async function aqIndex(lat, lon) {
   var aqiUrl =
-    "http://api.openweathermap.org/data/2.5/air_pollution?lat=" +
+    "https://api.openweathermap.org/data/2.5/air_pollution?lat=" +
     lat +
     "&lon=" +
     lon +
@@ -612,7 +612,7 @@ function renderButtons() {
       let city = txt.split(",")[0].trim();
       let state = txt.split(",")[1].trim();
       getWeatherInfo(city, state);
-      
+      // TO UPPER CASE.....
       let lat = data.coord.lat;
       let lon = data.coord.lon;
       uvIndex(lat, lon)
