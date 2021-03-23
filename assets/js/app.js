@@ -156,8 +156,6 @@ var getWeatherInfo = async function (city, state) {
     console.log(data);
     var searchTime = parseInt(data.dt);
     console.log(searchTime);
-    var lat = data.coord.lon;
-    var lon = data.coord.lat;
     uvIndex(data.coord.lat, data.coord.lon);
     await aqIndex(data.coord.lat, data.coord.lon);
     console.log(moment.unix(searchTime).format(" hh:mm a"));
@@ -614,6 +612,9 @@ function renderButtons() {
       let city = txt.split(",")[0].trim();
       let state = txt.split(",")[1].trim();
       getWeatherInfo(city, state);
+      
+      let lat = data.coord.lat;
+      let lon = data.coord.lon;
       uvIndex(lat, lon)
       aqIndex(lat, lon)
       search();
