@@ -256,9 +256,9 @@ p {
   color:#F1EB8A;
 }
 
-.panel-footer {
+/* .panel-footer {
   display: none;
-}
+} */
 
 .list-group-item {
   background-image: url(../images/galaxy-background.gif);
