@@ -18,6 +18,10 @@ body {
   z-index: -2;
 }
 
+select {
+  margin-top: 6px;
+}
+
 /* this class will be used later to display the still image that reflects the time ofthe searched city */
 /* .still-background {
   background-size: cover;
