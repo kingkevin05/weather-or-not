@@ -1,4 +1,5 @@
-![Logo of the project](https://raw.githubusercontent.com/jehna/readme-best-practices/master/sample-logo.png)
+<img width="399" alt="Screen Shot 2021-03-22 at 9 16 45 PM" src="https://user-images.githubusercontent.com/77700824/112092135-19206800-8b54-11eb-8738-b566fecf1cad.png">
+
 
 # Weather-or-Not
 > Additional information or tagline
