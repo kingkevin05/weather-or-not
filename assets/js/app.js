@@ -310,7 +310,7 @@ var search = async function (event) {
       // getting the lat and long from the converted response
       locationObj = data.results[0].geometry.location;
       var service = new google.maps.places.PlacesService(
-        $("#stuff-todo").get(0)
+        $("#map-dummy-div").get(0)
       );
 
       var request = {
