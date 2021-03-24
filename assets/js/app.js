@@ -169,12 +169,25 @@ var getWeatherInfo = async function (city, state) {
     feelsLike.innerHTML = "Feels like: " + feelsLikeValue + " °F";
     humidity.innerHTML = "Humidity: " + humidityValue + "%";
     wind.innerHTML = "Wind Speed: " + windValue + " MPH";
-    var newWeatherItem = { city: city, state: state };
-
+    var newWeatherItem = { city: city.toUpperCase(), state: state };
+    console.log(recentSearches);
+    console.log(JSON.stringify(newWeatherItem));
+    console.log(recentSearches.includes(newWeatherItem));
     // unshift is like .push() but to front
-    recentSearches.unshift(newWeatherItem);
-    // pushing array back into local storage
-    localStorage.setItem("recents", JSON.stringify(recentSearches));
+    // if (!recentSearches.includes(JSON.stringify(newWeatherItem))) {
+      const newSearches = recentSearches.filter(search => {
+        if (search.city === newWeatherItem.city && search.state === newWeatherItem.state) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+      console.log(newSearches);
+      newSearches.unshift(newWeatherItem);
+      // // pushing array back into local storage
+      localStorage.setItem("recents", JSON.stringify(newSearches));
+      recentSearches = newSearches;
+
   } else {
     errorModalCall(response.statusText);
   }
@@ -189,6 +202,7 @@ function uvIndex(lat, lon) {
     lon +
     "&appid=9795009f60d5d1c3afe4e6df6002c319";
   // clear existing timer
+  console.log("timer id", timerId);
   clearInterval(timerId);
   fetch(uviUrl)
     .then(function (response) {
@@ -266,7 +280,7 @@ var search = async function (event) {
     }
     if (tempValue > 55 && tempValue <= 65) {
       modalCall(
-        "Weather's looking cool. Bring a jacket if you're going outside, just in case. Here are some cool events to choose from."
+        "Weather's looking cool. Bring a jacket if you're going outside, just in case. Here's what's in the area."
       );
     }
     if (tempValue > 65 && aqiValue <= 50) {
@@ -343,27 +357,27 @@ var search = async function (event) {
 
           let leftArrow = document.createElement("a");
           leftArrow.href = "#";
-          leftArrow.innerHTML = '<span aria-hidden="true">&larr;</span>'
+          leftArrow.innerHTML = '<span aria-hidden="true">&larr;</span>';
           prevButton.append(leftArrow);
 
           pager.append(prevButton, nextButton);
 
-          $("#outdoor-next").on("click", function() {
+          $("#outdoor-next").on("click", function () {
             if (outdoorPage == outdoorResults.length / itemsPerPage) {
               return;
             }
             outdoorPage += 1;
             showOutdoorActivities();
           });
-          
-          $("#outdoor-prev").on("click", function() {
+
+          $("#outdoor-prev").on("click", function () {
             if (outdoorPage == 0) {
               return;
             }
             outdoorPage -= 1;
             showOutdoorActivities();
           });
-          
+
           showOutdoorActivities();
 
           // weather conditions
@@ -373,7 +387,7 @@ var search = async function (event) {
             );
           } else if (tempValue > 55 && tempValue <= 65) {
             modalCall(
-              "Weather's looking cool. Bring a jacket if you're going outside, just in case. Here are some cool events to choose from."
+              "Weather's looking cool. Bring a jacket if you're going outside, just in case. Here's what's in the area."
             );
           } else if (tempValue > 65 && aqiValue <= 50) {
             modalCall(
@@ -409,63 +423,73 @@ var search = async function (event) {
     }
     displayResults();
   }
-  function displayResults() {
-    if (stuffTodo.style.display == "" || stuffTodo.style.display == "none") {
-      stuffTodo.style.display = "block";
-    } else {
-      modalCall(
-        "Weather’s not looking too good, cheers to indoor fun! Check these events out."
-      );
-    }
-  }
+  // function displayResults() {
+  //   if (stuffTodo.style.display == "" || stuffTodo.style.display == "none") {
+  //     stuffTodo.style.display = "block";
+  //   } else {
+  //     modalCall(
+  //       "Weather’s not looking too good, cheers to indoor fun! Check these events out."
+  //     );
+  //   }
+  // }
+  renderButtons(recentSearches);
 };
 
-const showOutdoorActivities = function() {
-    $("#image-panel").hide();
-    $("#trails-panel").html("");
-    const results = outdoorResults;
-    const firstItemIndex = (outdoorPage - 1) * itemsPerPage
-    for (let i = firstItemIndex; i < firstItemIndex + itemsPerPage && i < results.length; i++) {
-        let hikePlace = results[i].name;
-        let hikeAddress = results[i].formatted_address;
-        let hikeRating = results[i].rating;
-        let hikePhotos;
-        if (results[i].photos != undefined && results[i].photos.length > 0) {
-          hikePhotos = results[i].photos[0];
-        }
-        console.log(hikePlace, hikeAddress, hikeRating, hikePhotos);
-        var hDiv = document.createElement("a");
-        hDiv.id = "outdoor-" + i;
-        hDiv.className = "list-group-item";
-        hDiv.href = "#";
-        var newH1 = document.createElement("h4");
-        newH1.className = "list-group-item-heading";
-        var newH2 = document.createElement("p");
-        newH2.className = "list-group-item-text";
-        var newH3 = document.createElement("p");
-        newH3.className = "list-group-item-text";
-
-        newH1.textContent = hikePlace;
-        newH2.textContent = hikeAddress;
-        newH3.textContent = "Rating: " + hikeRating + " / 5";
-
-        hDiv.append(newH1, newH2, newH3);
-        trailsPanel.append(hDiv);
-        
-        $("#outdoor-" + i).click(function(event) {
-          $("#trails-panel").hide();
-          if (hikePhotos != undefined) {
-            $("#image-panel").html("<img id=image-" + i + " src=" + hikePhotos.getUrl() + " style='height:400px;width:400px;'/>");
-            $("#image-" + i).click(function(event) {
-              $("#image-panel").hide();
-              $("#trails-panel").show();
-            })
-          }
-          $("#image-panel").show();
-        })            
+const showOutdoorActivities = function () {
+  $("#image-panel").hide();
+  $("#trails-panel").html("");
+  const results = outdoorResults;
+  const firstItemIndex = (outdoorPage - 1) * itemsPerPage;
+  for (
+    let i = firstItemIndex;
+    i < firstItemIndex + itemsPerPage && i < results.length;
+    i++
+  ) {
+    let hikePlace = results[i].name;
+    let hikeAddress = results[i].formatted_address;
+    let hikeRating = results[i].rating;
+    let hikePhotos;
+    if (results[i].photos != undefined && results[i].photos.length > 0) {
+      hikePhotos = results[i].photos[0];
     }
-}
+    console.log(hikePlace, hikeAddress, hikeRating, hikePhotos);
+    var hDiv = document.createElement("a");
+    hDiv.id = "outdoor-" + i;
+    hDiv.className = "list-group-item";
+    hDiv.href = "#";
+    var newH1 = document.createElement("h4");
+    newH1.className = "list-group-item-heading";
+    var newH2 = document.createElement("p");
+    newH2.className = "list-group-item-text";
+    var newH3 = document.createElement("p");
+    newH3.className = "list-group-item-text";
 
+    newH1.textContent = hikePlace;
+    newH2.textContent = hikeAddress;
+    newH3.textContent = "Rating: " + hikeRating + " / 5";
+
+    hDiv.append(newH1, newH2, newH3);
+    trailsPanel.append(hDiv);
+
+    $("#outdoor-" + i).click(function (event) {
+      $("#trails-panel").hide();
+      if (hikePhotos != undefined) {
+        $("#image-panel").html(
+          "<img id=image-" +
+            i +
+            " src=" +
+            hikePhotos.getUrl() +
+            " style='height:400px;width:400px;'/>"
+        );
+        $("#image-" + i).click(function (event) {
+          $("#image-panel").hide();
+          $("#trails-panel").show();
+        });
+      }
+      $("#image-panel").show();
+    });
+  }
+};
 
 var page = 0;
 // var events = [0];
@@ -592,16 +616,22 @@ function showAttraction(json) {
       " - " +
       json.classifications[0].subGenre.name
   );
-  }
+}
 
-$("#search-button").on("click", search);
+$(searchBtn).on("click", search);
 
 // render previous search buttons
-function renderButtons() {
-  console.log(recentSearches);
-  var $previousSearches = $("<h5>").text("Previous Searches");
-  $("#recent-search").append($previousSearches);
-  recentSearches.forEach(function (el) {
+function renderButtons(searches) {
+  // let $prevSearches = $("#previousSearchHeader");
+  // if (!$prevSearches) {
+    $("#recent-search").empty();
+    var $previousSearches = $("<h5>").text("Previous Searches");
+    $previousSearches.attr("id", "previousSearchHeader");
+    $("#recent-search").append($previousSearches);
+
+
+  searches.forEach(function (el) {
+    el.city = el.city.toUpperCase();
     var $button = $("<button>").text(el.city + ", " + el.state);
     $button.addClass("previousSearches");
     console.log($button);
@@ -611,20 +641,18 @@ function renderButtons() {
       console.log(txt);
       let city = txt.split(",")[0].trim();
       let state = txt.split(",")[1].trim();
-      getWeatherInfo(city, state);
-      // TO UPPER CASE.....
-      // doesn't pop up until we refresh the page
-      
-      // let lat = data.coord.lat;
-      // let lon = data.coord.lon;
-      uvIndex(lat, lon)
-      aqIndex(lat, lon)
-      // on click, 
-      search();
+      // reference to city text field
+      cityInput.value = city;
+      document.querySelector("#states").value = state;
+      $(searchBtn).click();
+
+      // set city text field value = txt
+      // get reference to state dropdown
+      // set state dropdown value
     });
   });
 }
-renderButtons();
+renderButtons(recentSearches);
 
 // Aidan's code resides down here lol
 
