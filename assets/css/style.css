@@ -22,6 +22,11 @@ select {
   margin-top: 6px;
 }
 
+.pager a  {
+  font-size: 20px;
+  color: white;
+}
+
 /* this class will be used later to display the still image that reflects the time ofthe searched city */
 /* .still-background {
   background-size: cover;
@@ -73,6 +78,10 @@ select {
   }
 }
 /* END section that is responsible for the header animation when the page loads */
+
+#events {
+  display: none;
+}
 
 #search-button {
   margin-left: 20px;
@@ -261,7 +270,7 @@ p {
 }
 
 .panel-footer {
-  display: none;
+  border-color: white;
 }
 
 .list-group-item {
