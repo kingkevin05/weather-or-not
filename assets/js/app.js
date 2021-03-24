@@ -324,7 +324,7 @@ var search = async function (event) {
       // getting the lat and long from the converted response
       locationObj = data.results[0].geometry.location;
       var service = new google.maps.places.PlacesService(
-        $("#stuff-todo").get(0)
+        $("#map-dummy-div").get(0)
       );
 
       var request = {
@@ -423,15 +423,15 @@ var search = async function (event) {
     }
     displayResults();
   }
-  // function displayResults() {
-  //   if (stuffTodo.style.display == "" || stuffTodo.style.display == "none") {
-  //     stuffTodo.style.display = "block";
-  //   } else {
-  //     modalCall(
-  //       "Weather’s not looking too good, cheers to indoor fun! Check these events out."
-  //     );
-  //   }
-  // }
+  function displayResults() {
+    if (stuffTodo.style.display == "" || stuffTodo.style.display == "none") {
+      stuffTodo.style.display = "block";
+    } else {
+      modalCall(
+        "Weather’s not looking too good, cheers to indoor fun! Check these events out."
+      );
+    }
+  }
   renderButtons(recentSearches);
 };
 

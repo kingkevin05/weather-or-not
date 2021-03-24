@@ -79,10 +79,6 @@ select {
 }
 /* END section that is responsible for the header animation when the page loads */
 
-#events {
-  display: none;
-}
-
 #search-button {
   margin-left: 20px;
   border-radius: 4px;
