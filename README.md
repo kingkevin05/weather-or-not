@@ -1,4 +1,4 @@
-![Logo of the project](https://raw.githubusercontent.com/jehna/readme-best-practices/master/sample-logo.png)
+![Logo of the project](https://github.com/kingkevin05/weather-or-not/blob/main/assets/images/animated-logo.gif)
 
 # Weather-or-Not
 
@@ -12,7 +12,10 @@ Our application enables users to find fun events and activities in a given city.
 
 ## Screenshots
 
-
+![screenshot1](https://github.com/kingkevin05/weather-or-not/blob/main/assets/images/screen-shot-1.png)
+![screenshot2](https://github.com/kingkevin05/weather-or-not/blob/main/assets/images/screen-shot-2.png)
+![screenshot3](https://github.com/kingkevin05/weather-or-not/blob/main/assets/images/screen-shot-3.png)
+![screenshot4](https://github.com/kingkevin05/weather-or-not/blob/main/assets/images/screen-shot-4.png)
 
 ## Contributing
 
