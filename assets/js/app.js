@@ -31,7 +31,7 @@ var outdoorPage = 1;
 const itemsPerPage = 4;
 var outdoorResults;
 
-console.log(stuffTodo);
+// console.log(stuffTodo);
 var selectElement = document.getElementById("states");
 var states = [
   "AL",
@@ -143,9 +143,9 @@ var getWeatherInfo = async function (city, state) {
     "&units=imperial&appid=9795009f60d5d1c3afe4e6df6002c319";
 
   var response = await fetch(apiUrl);
-  console.log(response);
+  // console.log(response);
   if (response.ok) {
-    console.log(response);
+    // console.log(response);
     var data = await response.json();
     var nameValue = data.name;
     var descriptionValue = data.weather[0].description;
@@ -153,12 +153,12 @@ var getWeatherInfo = async function (city, state) {
     var feelsLikeValue = data.main.feels_like;
     var humidityValue = data.main.humidity;
     var windValue = data.wind.speed;
-    console.log(data);
+    // console.log(data);
     var searchTime = parseInt(data.dt);
-    console.log(searchTime);
+    // console.log(searchTime);
     uvIndex(data.coord.lat, data.coord.lon);
     await aqIndex(data.coord.lat, data.coord.lon);
-    console.log(moment.unix(searchTime).format(" hh:mm a"));
+    // console.log(moment.unix(searchTime).format(" hh:mm a"));
 
     nameDisplay.innerHTML = nameValue;
     //  + " " + currentDate.format("LT"); (this used to be attached to the code above, but i took it out since i moved local time to upper right corner)
@@ -170,24 +170,26 @@ var getWeatherInfo = async function (city, state) {
     humidity.innerHTML = "Humidity: " + humidityValue + "%";
     wind.innerHTML = "Wind Speed: " + windValue + " MPH";
     var newWeatherItem = { city: city.toUpperCase(), state: state };
-    console.log(recentSearches);
-    console.log(JSON.stringify(newWeatherItem));
-    console.log(recentSearches.includes(newWeatherItem));
-    // unshift is like .push() but to front
+    // console.log(recentSearches);
+    // console.log(JSON.stringify(newWeatherItem));
+    // console.log(recentSearches.includes(newWeatherItem));
     // if (!recentSearches.includes(JSON.stringify(newWeatherItem))) {
-      const newSearches = recentSearches.filter(search => {
-        if (search.city === newWeatherItem.city && search.state === newWeatherItem.state) {
-          return false;
-        } else {
-          return true;
-        }
-      });
-      console.log(newSearches);
-      newSearches.unshift(newWeatherItem);
-      // // pushing array back into local storage
-      localStorage.setItem("recents", JSON.stringify(newSearches));
-      recentSearches = newSearches;
-
+    const newSearches = recentSearches.filter((search) => {
+      if (
+        search.city === newWeatherItem.city &&
+        search.state === newWeatherItem.state
+      ) {
+        return false;
+      } else {
+        return true;
+      }
+    });
+    // console.log(newSearches);
+    // unshift is like .push() but to front
+    newSearches.unshift(newWeatherItem);
+    // // pushing array back into local storage
+    localStorage.setItem("recents", JSON.stringify(newSearches));
+    recentSearches = newSearches;
   } else {
     errorModalCall(response.statusText);
   }
@@ -202,12 +204,12 @@ function uvIndex(lat, lon) {
     lon +
     "&appid=9795009f60d5d1c3afe4e6df6002c319";
   // clear existing timer
-  console.log("timer id", timerId);
+  // console.log("timer id", timerId);
   clearInterval(timerId);
   fetch(uviUrl)
     .then(function (response) {
       if (response.ok) {
-        console.log(response);
+        // console.log(response);
         response.json().then(function (data) {
           // console.log(data);
           var uviValue = data.current.uvi;
@@ -235,13 +237,13 @@ async function aqIndex(lat, lon) {
     "&lon=" +
     lon +
     "&appid=9795009f60d5d1c3afe4e6df6002c319";
-  console.log(aqiUrl);
+  // console.log(aqiUrl);
   var response = await fetch(aqiUrl);
 
   if (response.ok) {
-    console.log(response);
+    // console.log(response);
     var data = await response.json();
-    console.log(data);
+    // console.log(data);
     aqiValue = data.list[0].main.aqi;
     aqi.innerHTML = "Air Quality Index: " + aqiValue;
   } else {
@@ -270,7 +272,7 @@ var search = async function (event) {
 
   // getting input text
   if (tempValue > 50 && aqiValue < 100) {
-    console.log(cityInput);
+    // console.log(cityInput);
 
     // weather conditions
     if (tempValue > 40 && tempValue <= 55) {
@@ -337,7 +339,7 @@ var search = async function (event) {
           $("#stuff-todo").hide();
           $("#outdoor").show();
           $("#outdoor-pager").html("");
-          console.log(results);
+          // console.log(results);
           outdoorResults = results;
           outdoorPage = 1;
           let pager = document.getElementById("outdoor-pager");
@@ -452,7 +454,7 @@ const showOutdoorActivities = function () {
     if (results[i].photos != undefined && results[i].photos.length > 0) {
       hikePhotos = results[i].photos[0];
     }
-    console.log(hikePlace, hikeAddress, hikeRating, hikePhotos);
+    // console.log(hikePlace, hikeAddress, hikeRating, hikePhotos);
     var hDiv = document.createElement("a");
     hDiv.id = "outdoor-" + i;
     hDiv.className = "list-group-item";
@@ -562,7 +564,7 @@ function showEvents(json) {
     item.show();
     item.off("click");
     item.click(events[i], function (eventObject) {
-      console.log(eventObject.data);
+      // console.log(eventObject.data);
       try {
         getAttraction(eventObject.data._embedded.attractions[0].id);
       } catch (err) {
@@ -624,21 +626,20 @@ $(searchBtn).on("click", search);
 function renderButtons(searches) {
   // let $prevSearches = $("#previousSearchHeader");
   // if (!$prevSearches) {
-    $("#recent-search").empty();
-    var $previousSearches = $("<h5>").text("Previous Searches");
-    $previousSearches.attr("id", "previousSearchHeader");
-    $("#recent-search").append($previousSearches);
-
+  $("#recent-search").empty();
+  var $previousSearches = $("<h5>").text("Previous Searches");
+  $previousSearches.attr("id", "previousSearchHeader");
+  $("#recent-search").append($previousSearches);
 
   searches.forEach(function (el) {
     el.city = el.city.toUpperCase();
     var $button = $("<button>").text(el.city + ", " + el.state);
     $button.addClass("previousSearches");
-    console.log($button);
+    // console.log($button);
     $("#recent-search").append($button);
     $button.on("click", function () {
       var txt = $(this).text();
-      console.log(txt);
+      // console.log(txt);
       let city = txt.split(",")[0].trim();
       let state = txt.split(",")[1].trim();
       // reference to city text field
@@ -663,7 +664,7 @@ function runTimeOut() {
   setTimeout(function () {
     var targetDiv = document.getElementById("get-description").innerText;
     var clouds = targetDiv.includes("cloud");
-    console.log(clouds);
+    // console.log(clouds);
     if (clouds === true) {
       document.getElementById("overcast-cloud-left").style.visibility =
         "visible";
@@ -677,7 +678,7 @@ function runTimeOut() {
       document.getElementById("smog-right").style.visibility = "hidden";
     }
     var clear = targetDiv.includes("clear");
-    console.log(clear);
+    // console.log(clear);
     if (clear === true) {
       document.getElementById("overcast-cloud-left").style.visibility =
         "hidden";
@@ -691,7 +692,7 @@ function runTimeOut() {
       document.getElementById("smog-right").style.visibility = "hidden";
     }
     var smoke = targetDiv.includes("smoke");
-    console.log(smoke);
+    // console.log(smoke);
     if (smoke === true) {
       document.getElementById("overcast-cloud-left").style.visibility =
         "hidden";
@@ -705,7 +706,7 @@ function runTimeOut() {
       document.getElementById("smog-right").style.visibility = "visible";
     }
     var haze = targetDiv.includes("haze");
-    console.log(haze);
+    // console.log(haze);
     if (haze === true) {
       document.getElementById("overcast-cloud-left").style.visibility =
         "hidden";
@@ -719,7 +720,7 @@ function runTimeOut() {
       document.getElementById("smog-right").style.visibility = "visible";
     }
     var rain = targetDiv.includes("rain");
-    console.log(rain);
+    // console.log(rain);
     if (rain === true) {
       document.getElementById("overcast-cloud-left").style.visibility =
         "hidden";
